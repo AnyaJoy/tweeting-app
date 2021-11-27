@@ -1,5 +1,5 @@
 import React from "react";
-import { useContext, useState, useEffect } from "react";
+import { useContext, useEffect } from "react";
 import AppContext from "../Context/AppContext";
 import "../App.css";
 import { Link, useLocation } from "react-router-dom";
@@ -65,7 +65,6 @@ export default function Navbar() {
           <span
             onClick={logout}
             className="logout"
-            // className={`login-${appContext.loginActive}`}
           >
             Logout [➜
           </span>

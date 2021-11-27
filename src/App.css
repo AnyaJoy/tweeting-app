@@ -621,7 +621,7 @@ img {
   }
 }
 
-/* loader profile */
+/* loader profile
 .loader2 {
   position: absolute;
   right: 15px;
@@ -663,9 +663,9 @@ img {
   -webkit-animation-delay: -1s;
   animation-delay: -1s;
   background: rgba(0, 123, 255, 0.4);
-}
+} */
 
-@keyframes loader2 {
+/* @keyframes loader2 {
   from {
     transform: scale(0, 0);
   }
@@ -680,4 +680,4 @@ img {
   to {
     -webkit-transform: scale(1, 1);
   }
-}
+} */

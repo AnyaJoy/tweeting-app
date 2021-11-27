@@ -1,34 +1,28 @@
 import React from "react";
-import { useContext, useState, useEffect } from "react";
+import { useContext, useEffect } from "react";
 import Loader from "./Loader";
 import moment from "moment";
 import AppContext from "../Context/AppContext";
-import firebase from "firebase/compat/app";
-import "firebase/compat/auth";
-import "firebase/compat/firestore";
 
-// import { getAuth, onAuthStateChanged } from "firebase/auth";
-import { auth } from "./Firebase";
-import { useAuthState } from "react-firebase-hooks/auth";
+import {
+  auth,
+  sendTweetFirestore,
+  firebaseConfig,
+  query,
+  orderByChild,
+  db,
+  ref,
+  onValue
+} from "./Firebase";
 import { useHistory } from "react-router-dom";
+import { useAuthState } from "react-firebase-hooks/auth";
 
-// import { initializeApp } from "@firebase/app";
-// import { getAnalytics } from "@firebase/analytics";
+// import firebase from "firebase/compat/app";
+// import "firebase/compat/auth";
+// import "firebase/compat/firestore";
 
-const firebaseConfig = {
-  apiKey: "AIzaSyBMjyU3LTizzmKymU0u5x_IDGBKVR2PDgw",
-  authDomain: "react-project-2-anyajoy.firebaseapp.com",
-  projectId: "react-project-2-anyajoy",
-  storageBucket: "react-project-2-anyajoy.appspot.com",
-  messagingSenderId: "571997512755",
-  appId: "1:571997512755:web:48cbc30dbc1a0874f62f46",
-  measurementId: "G-KZWMH65NEN",
-};
-
-// Initialize Firebase
-firebase.initializeApp(firebaseConfig);
-// const app = initializeApp(firebaseConfig);
-// const analytics = getAnalytics(app);
+// // Initialize Firebase
+// firebase.initializeApp(firebaseConfig);
 
 export default function Form(props) {
   const appContext = useContext(AppContext);
@@ -42,23 +36,23 @@ export default function Form(props) {
     }
     if (user) {
       history.replace("/");
-      appContext.setCurrentUser(true);
+      appContext.setCurrentUser(user);
 
-      firebase
-        .firestore()
-        .collection("users")
-        .onSnapshot((snapshot) => {
-          const data = snapshot.docs.map((doc) => ({
-            id: doc.id,
-            ...doc.data(),
-          }));
-          console.log(data);
-          let thisUser = data.filter((item) => {
-            return item.id == user.uid;
-          });
-          console.log(thisUser);
-          appContext.setCurrentUser(thisUser[0]);
-        });
+      // firebase
+      //   .firestore()
+      //   .collection("users")
+      //   .onSnapshot((snapshot) => {
+      //     const data = snapshot.docs.map((doc) => ({
+      //       id: doc.id,
+      //       ...doc.data(),
+      //     }));
+      //     console.log(data);
+      //     let thisUser = data.filter((item) => {
+      //       return item.id == user.uid;
+      //     });
+      //     console.log(thisUser);
+      //     appContext.setCurrentUser(thisUser[0]);
+      //   });
     }
     if (!user) {
       history.replace("/login");
@@ -108,27 +102,13 @@ export default function Form(props) {
     let dateNow = new Date();
     let dateFormatted = moment(dateNow).format("ddd DD MMM, HH:mm");
 
-    //capturing timestamp
-    const timestamp = firebase.firestore.FieldValue.serverTimestamp;
-
     // emptying the input field and storage
     appContext.setInput("");
 
     //sending to the server
     setTimeout(() => {
       if (appContext.input !== "") {
-        firebase
-          .firestore()
-          .collection("tweets")
-          .add({
-            content: appContext.input,
-            userName: appContext.currentUser.name,
-            date: dateFormatted,
-            createdAt: timestamp(),
-          })
-          .then((ref) => {
-            console.log("Added doc with ID: ", ref.id);
-          });
+        sendTweetFirestore(appContext.input, appContext.currentUser.displayName, dateFormatted);
         appContext.setIsLoading(false);
       }
     }, [500]);
@@ -136,19 +116,15 @@ export default function Form(props) {
 
   // recieving the tweets from server on pageload and on change
   useEffect(() => {
-    firebase
-      .firestore()
-      .collection("tweets")
-      .orderBy("createdAt")
-      .onSnapshot((snapshot) => {
-        const data = snapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-        let descendingArray = data.reverse();
-
-        appContext.setTweetStorage(descendingArray);
+    onValue(ref(db, "tweets"), (snapshot) => {
+      var tweetsArray = [];
+      snapshot.forEach((childSnapshot) => {
+        const data = childSnapshot.val();
+        tweetsArray.push(data)
       });
+      let descendingArray = tweetsArray.reverse();
+      appContext.setTweetStorage(descendingArray)
+    })
   }, []);
 
   return (
@@ -166,7 +142,7 @@ export default function Form(props) {
           <Loader />
         ) : (
           <button
-            onClick={handleTweet}
+            // onClick={handleTweet}
             disabled={!appContext.isInput}
             className={`input-${appContext.isInput}`}
           >

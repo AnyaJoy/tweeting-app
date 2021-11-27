@@ -1,0 +1,41 @@
+[debug] [2021-11-25T22:03:50.946Z] ----------------------------------------------------------------------
+[debug] [2021-11-25T22:03:50.948Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\urda-\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js emulators:start
+[debug] [2021-11-25T22:03:50.948Z] CLI Version:   9.23.0
+[debug] [2021-11-25T22:03:50.948Z] Platform:      win32
+[debug] [2021-11-25T22:03:50.948Z] Node Version:  v14.17.6
+[debug] [2021-11-25T22:03:50.949Z] Time:          Fri Nov 26 2021 00:03:50 GMT+0200 (Israel Standard Time)
+[debug] [2021-11-25T22:03:50.949Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2021-11-25T22:03:51.001Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2021-11-25T22:03:51.001Z] > authorizing via signed-in user (urda-a@mail.ru)
+[info] i  emulators: Starting emulators: hosting {"metadata":{"emulator":{"name":"hub"},"message":"Starting emulators: hosting"}}
+[debug] [2021-11-25T22:03:51.025Z] [hub] writing locator at C:\Users\urda-\AppData\Local\Temp\hub-tweet-out.json
+[debug] [2021-11-25T22:03:51.051Z] > refreshing access token with scopes: []
+[debug] [2021-11-25T22:03:51.052Z] >>> HTTP REQUEST POST https://www.googleapis.com/oauth2/v3/token  
+ <request body omitted>
+[debug] [2021-11-25T22:03:51.476Z] <<< HTTP RESPONSE 200 {"cache-control":"no-cache, no-store, max-age=0, must-revalidate","expires":"Mon, 01 Jan 1990 00:00:00 GMT","date":"Thu, 25 Nov 2021 22:03:51 GMT","pragma":"no-cache","content-type":"application/json; charset=utf-8","vary":"X-Origin, Referer, Origin,Accept-Encoding","server":"scaffolding on HTTPServer2","x-xss-protection":"0","x-frame-options":"SAMEORIGIN","x-content-type-options":"nosniff","alt-svc":"h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000,h3-Q050=\":443\"; ma=2592000,h3-Q046=\":443\"; ma=2592000,h3-Q043=\":443\"; ma=2592000,quic=\":443\"; ma=2592000; v=\"46,43\"","accept-ranges":"none","transfer-encoding":"chunked"}
+[debug] [2021-11-25T22:03:51.487Z] >>> [apiv2][query] GET https://firebasehosting.googleapis.com/v1beta1/projects/tweet-out/sites 
+[debug] [2021-11-25T22:03:52.716Z] <<< [apiv2][status] GET https://firebasehosting.googleapis.com/v1beta1/projects/tweet-out/sites 200
+[debug] [2021-11-25T22:03:52.717Z] <<< [apiv2][body] GET https://firebasehosting.googleapis.com/v1beta1/projects/tweet-out/sites {"sites":[{"name":"projects/639838059188/sites/tweet-out","defaultUrl":"https://tweet-out.web.app","appId":"1:639838059188:web:621c781b36dbe6838435e1","type":"DEFAULT_SITE"}]}
+[debug] [2021-11-25T22:03:52.717Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/tweet-out/webApps/1:639838059188:web:621c781b36dbe6838435e1/config [none]
+[debug] [2021-11-25T22:03:54.077Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/tweet-out/webApps/1:639838059188:web:621c781b36dbe6838435e1/config 200
+[debug] [2021-11-25T22:03:54.078Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/tweet-out/webApps/1:639838059188:web:621c781b36dbe6838435e1/config {"projectId":"tweet-out","appId":"1:639838059188:web:621c781b36dbe6838435e1","storageBucket":"tweet-out.appspot.com","locationId":"europe-west","apiKey":"AIzaSyC3WsDVT-TTJIoxPP2KELDJ4WraiM-QVeo","authDomain":"tweet-out.firebaseapp.com","messagingSenderId":"639838059188","measurementId":"G-7HKNRV20P1"}
+[info] i  hosting: Serving hosting files from: build {"metadata":{"emulator":{"name":"hosting"},"message":"Serving hosting files from: \u001b[1mbuild\u001b[22m"}}
+[info] +  hosting: Local server: http://localhost:5000 {"metadata":{"emulator":{"name":"hosting"},"message":"Local server: \u001b[4m\u001b[1mhttp://localhost:5000\u001b[22m\u001b[24m"}}
+[warn] !  emulators: The Emulator UI requires a project ID to start. Configure your default project with 'firebase use' or pass the --project flag. {"metadata":{"emulator":{"name":"hub"},"message":"The Emulator UI requires a project ID to start. Configure your default project with 'firebase use' or pass the --project flag."}}
+[info] 
+┌─────────────────────────────────────────────────────────────┐
+│ ✔  All emulators ready! It is now safe to connect your app. │
+└─────────────────────────────────────────────────────────────┘
+
+┌──────────┬────────────────┐
+│ Emulator │ Host:Port      │
+├──────────┼────────────────┤
+│ Hosting  │ localhost:5000 │
+└──────────┴────────────────┘
+  Emulator Hub running at localhost:4400
+  Other reserved ports: None
+
+Issues? Report them at https://github.com/firebase/firebase-tools/issues and attach the *-debug.log files.
+ 
+[debug] [2021-11-25T22:10:02.337Z] Received signal SIGHUP 1

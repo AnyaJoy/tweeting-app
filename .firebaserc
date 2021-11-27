@@ -1,5 +1,7 @@
 {
   "projects": {
-    "default": "react-project-copy"
-  }
+    "default": "react-project-copy",
+    "staging": "tweet-out"
+  },
+  "targets": {}
 }

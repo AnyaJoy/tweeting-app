@@ -2,12 +2,16 @@ import React from "react";
 import { useContext, useState, useEffect } from "react";
 import AppContext from "../Context/AppContext";
 import Loader from "./Loader";
+
 import { useAuthState } from "react-firebase-hooks/auth";
 import { Link, useHistory } from "react-router-dom";
+
 import {
   auth,
-  registerWithEmailAndPassword,
+  register,
   signInWithGoogle,
+  provider,
+  profileUpdate,
 } from "./Firebase";
 
 export default function Signup() {
@@ -16,12 +20,11 @@ export default function Signup() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
-  const [user, loading, error] = useAuthState(auth);
 
   // checking if there's a user
   const history = useHistory();
+  const [user, loading] = useAuthState(auth);
   useEffect(() => {
-    console.log("running!");
     if (loading) {
       return;
     }
@@ -35,10 +38,15 @@ export default function Signup() {
     }
   }, [user, loading]);
 
-  const register = () => {
+  const handleSignup = () => {
     if (!name) alert("Please enter name");
-    registerWithEmailAndPassword(name, email, password);
+    register(auth, email, password, name);
+    // profileUpdate(name)
   };  
+
+  const handleSignInWithGoogle = () => {
+    signInWithGoogle(auth, provider);
+  }
 
   return (
     <div className="login-wrapper">
@@ -65,7 +73,7 @@ export default function Signup() {
         // onKeyDown={submitOnEnter}
         className="user-name-input"
         placeholder="best-alex-ever@mail.com"
-        value={appContext.email}
+        value={email}
         onChange={(e) => setEmail(e.target.value)}
       ></input>
       <div className="user-name-description">Password</div>
@@ -74,7 +82,7 @@ export default function Signup() {
         type="password"
         className="user-name-input"
         placeholder="********"
-        value={appContext.password}
+        value={password}
         onChange={(e) => setPassword(e.target.value)}
       ></input>
       {/* <div className="user-name-description">Confirm password</div>
@@ -92,14 +100,17 @@ export default function Signup() {
       ) : (
         <div className="signup-buttons">
           <button
-            onClick={register}
+            onClick={handleSignup}
             // disabled={!appContext.isInput}
             disabled={false}
             className={`signup-button-${true}`}
           >
             Sign Up
           </button>
-          <button className="signup-button-google" onClick={signInWithGoogle}>
+          <button 
+          className="signup-button-google" 
+          onClick={handleSignInWithGoogle}
+          >
             Sign up with Google
           </button>
         </div>

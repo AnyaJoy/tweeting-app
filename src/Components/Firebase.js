@@ -1,99 +1,200 @@
 import firebase from "firebase/compat/app";
-import moment from "moment";
+import uniqid from "uniqid";
+// import moment from "moment";
+import { initializeApp } from "firebase/app";
+// import {
+//   getFirestore,
+//   collection,
+//   addDoc,
+//   getDocs,
+//   doc,
+//   setDoc,
+// } from "firebase/firestore";
+
+import {
+  getDatabase,
+  ref,
+  set,
+  child,
+  get,
+  onValue,
+  query,
+  orderByChild,
+} from "firebase/database";
+
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  onAuthStateChanged,
+  signInWithPopup,
+  GoogleAuthProvider,
+  signOut,
+  updateProfile,
+} from "firebase/auth";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyBMjyU3LTizzmKymU0u5x_IDGBKVR2PDgw",
-  authDomain: "react-project-2-anyajoy.firebaseapp.com",
-  projectId: "react-project-2-anyajoy",
-  storageBucket: "react-project-2-anyajoy.appspot.com",
-  messagingSenderId: "571997512755",
-  appId: "1:571997512755:web:48cbc30dbc1a0874f62f46",
-  measurementId: "G-KZWMH65NEN",
+  apiKey: "AIzaSyC3WsDVT-TTJIoxPP2KELDJ4WraiM-QVeo",
+  authDomain: "tweet-out.firebaseapp.com",
+  projectId: "tweet-out",
+  storageBucket: "tweet-out.appspot.com",
+  messagingSenderId: "639838059188",
+  appId: "1:639838059188:web:621c781b36dbe6838435e1",
+  measurementId: "G-7HKNRV20P1",
+  databaseURL:
+    "https://tweet-out-default-rtdb.europe-west1.firebasedatabase.app",
 };
 
-const app = firebase.initializeApp(firebaseConfig);
-const auth = app.auth();
-const db = app.firestore();
-const googleProvider = new firebase.auth.GoogleAuthProvider();
+const app = initializeApp(firebaseConfig);
+// const db = getFirestore(app); //firestore
+const database = getDatabase(app); //realtime database
+const auth = getAuth();
+const provider = new GoogleAuthProvider();
+const db = getDatabase();
+const dbRef = ref(getDatabase());
 
-const signInWithGoogle = async () => {
-  try {
-    const res = await auth.signInWithPopup(googleProvider);
-    const user = res.user;
-    const query = await db
-      .collection("users")
-      .where("uid", "==", user.uid)
-      .get();
-    if (query.docs.length === 0) {
+// //checks if a user exists
+// const checkUser = () => {
+// onAuthStateChanged(auth, (user) => {
+//   if (user) {
+//     const uid = user.uid;
+//     console.log('there is a user',user)
+//   } else {
+//     console.log("there's no user")
+//   }
+// });
+// }
+
+//create a user with email and password
+const register = (auth, email, password, name) => {
+  createUserWithEmailAndPassword(auth, email, password, name)
+    .then((userCredential) => {
+      //capturing the date
+      var dateNow = new Date();
+      var dateFormatted = moment(dateNow).format("ddd DD MMM, HH:mm");
+
+      updateProfile(auth.currentUser, {
+        displayName: name,
+        photoURL: URL,
+      });
+      // Signed in
+      const user = userCredential.user;
+
+      set(ref(ddb, "users/" + user.uid), {
+        username: name,
+        email: email,
+        dateCreated: dateFormatted,
+      });
+    })
+    .catch((error) => {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      // ..
+    });
+};
+
+const profileUpdate = (name, URL) => {
+  updateProfile(auth.currentUser, {
+    displayName: name,
+    photoURL: URL,
+  })
+    .then(() => {
+      // Profile updated!
+      console.log("name updated", name);
+    })
+    .catch((error) => {
+      // An error occurred
+    });
+};
+
+//sign in a user
+const signIn = (auth, email, password) => {
+  signInWithEmailAndPassword(auth, email, password)
+    .then((userCredential) => {
+      // Signed in
+      const user = userCredential.user;
+      console.log("user logged in", user);
+    })
+    .catch((error) => {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+    });
+};
+
+//sign in with google
+const signInWithGoogle = (auth, provider) => {
+  signInWithPopup(auth, provider)
+    .then((result) => {
+      // This gives you a Google Access Token. You can use it to access the Google API.
+      const credential = GoogleAuthProvider.credentialFromResult(result);
+      const token = credential.accessToken;
+      // The signed-in user info.
+      const user = result.user;
+      console.log(user);
       let dateNow = new Date();
       let dateFormatted = moment(dateNow).format("ddd DD MMM, HH:mm");
-      await db.collection("users").doc(user.uid).set({
+      const docRef = addDoc(collection(db, "users"), {
         uid: user.uid,
-        name: user.displayName,
+        displayName: user.displayName,
         authProvider: "google",
         email: user.email,
         dateCreated: dateFormatted,
       });
-    }
-    console.log("signed in with google!");
-  } catch (err) {
-    console.error(err);
-    alert(err.message);
-  }
-};
-
-const signInWithEmailAndPassword = async (email, password) => {
-  try {
-    await auth.signInWithEmailAndPassword(email, password);
-    console.log("signed in!");
-  } catch (err) {
-    console.error(err);
-    alert(err.message);
-  }
-};
-
-const registerWithEmailAndPassword = async (name, email, password) => {
-  try {
-    const res = await auth.createUserWithEmailAndPassword(email, password);
-    const user = res.user;
-    let dateNow = new Date();
-    let dateFormatted = moment(dateNow).format("ddd DD MMM, HH:mm");
-    await db.collection("users").doc(user.uid).set({
-      uid: user.uid,
-      name,
-      authProvider: "local",
-      email,
-      dateCreated: dateFormatted,
+    })
+    .catch((error) => {
+      // Handle Errors here.
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      // The email of the user's account used.
+      const email = error.email;
+      // The AuthCredential type that was used.
+      const credential = GoogleAuthProvider.credentialFromError(error);
     });
-    console.log("registered!");
-  } catch (err) {
-    console.error(err);
-    alert(err.message);
-  }
 };
 
-const sendPasswordResetEmail = async (email) => {
-  try {
-    await auth.sendPasswordResetEmail(email);
-    alert("Password reset link sent!");
-  } catch (err) {
-    console.error(err);
-    alert(err.message);
-  }
-};
-
+//signs the user out
 const logout = () => {
-  auth.signOut();
-  console.log("logged out!");
+  signOut(auth)
+    .then(() => {})
+    .catch((error) => {
+      console.log(error);
+    });
 };
 
+//get data from rl database
+const getTweetFirestore = () => {
+  const allTweets = query(ref(db, "tweets"), orderByChild("dateCreated"));
+  console.log(allTweets);
+  // const starCountRef = ref(db, 'posts/' + postId + '/starCount');
+  // onValue(starCountRef, (snapshot) => {
+  //   const data = snapshot.val();
+  //   updateStarCount(postElement, data);
+  // });
+};
+
+//add data to rt databasw
+const sendTweetFirestore = (input, name, dateFormatted) => {
+  set(ref(db, "tweets/" + uniqid()), {
+    content: input,
+    userName: name,
+    date: dateFormatted,
+  });
+};
 
 export {
+  register,
+  signIn,
   auth,
-  db,
+  provider,
   signInWithGoogle,
-  signInWithEmailAndPassword,
-  registerWithEmailAndPassword,
-  sendPasswordResetEmail,
   logout,
+  sendTweetFirestore,
+  getTweetFirestore,
+  db,
+  firebaseConfig,
+  profileUpdate,
+  query,
+  orderByChild,
+  ref,
+  onValue,
 };

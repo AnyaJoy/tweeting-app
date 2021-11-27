@@ -3,24 +3,27 @@ import { useContext, useState, useEffect } from "react";
 import AppContext from "../Context/AppContext";
 import Loader from "./Loader";
 import { Link, useHistory } from "react-router-dom";
+import { useAuthState } from "react-firebase-hooks/auth";
 
 import {
   auth,
-  signInWithEmailAndPassword,
+  signIn,
   signInWithGoogle,
-  logout,
+  provider,
 } from "./Firebase";
-import { useAuthState } from "react-firebase-hooks/auth";
+
 
 export default function Login() {
   const appContext = useContext(AppContext);
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [user, loading, error] = useAuthState(auth);
+
+
 
   // checking if there's a user
   const history = useHistory();
+  const [user, loading, error] = useAuthState(auth);
   useEffect(() => {
     console.log("running!")
     if (loading) {
@@ -33,16 +36,19 @@ export default function Login() {
     }
      //if not redirecting to login
     if (!user) {
-      history.replace("/login")
+      // history.replace("/login")
       appContext.setCurrentUser(false)
     }
   }, [user, loading])
 
 
-  const handleSignIn = (email, password) => {
-    signInWithEmailAndPassword(email, password)
-    appContext.setCurrentUser("true");
-    appContext.setRedirect("/");
+  const handleLogIn = () => {
+    signIn(auth, email, password);
+    history.replace("/");
+  }
+
+  const handleSignInWithGoogle = () => {
+    signInWithGoogle(auth, provider);
   }
 
   return (
@@ -78,13 +84,15 @@ export default function Login() {
       ) : (
         <div className="login-buttons">
           <button
-            onClick={() => {handleSignIn(email, password)}}
+            onClick={handleLogIn}
             disabled={false}
             className={`login-button-${true}`}
           >
             Log in
           </button>
-          <button onClick={signInWithGoogle} className={`login-button-google`}>
+          <button 
+          onClick={handleSignInWithGoogle} 
+          className={`login-button-google`}>
             Login with Google
           </button>
          
