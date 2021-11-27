@@ -7,12 +7,8 @@ import Signup from "./Components/Signup";
 import { useState, useEffect } from "react";
 import AppContext from "./Context/AppContext";
 import { BrowserRouter as Router, Route, Redirect } from "react-router-dom";
-// import { onAuthStateChanged } from "@firebase/auth";
-// import { auth } from "./Components/Firebase";
-
 
 function App() {
-
   //server storage
   const [serverData, setServerData] = useState([]);
   //location checkers
@@ -34,24 +30,12 @@ function App() {
   //current page location
   const [location, setLocation] = useState("");
   const [redirect, setRedirect] = useState();
-
+  //user
   const [currentUser, setCurrentUser] = useState(false);
 
-  // onAuthStateChanged(auth, (user) => {
-  //   if (user) {
-  //     const uid = user.uid;
-  //     console.log('there is a user',user)
-  //     setCurrentUser(true)
-  //     // setRedirect("/")
-  //   } else {
-  //     console.log("there's no user")
-  //     setCurrentUser(false)
-  //   }
-  // });
-
   useEffect(() => {
-    console.log(currentUser)
-  },[currentUser])
+    console.log(currentUser);
+  }, [currentUser]);
 
   return (
     <AppContext.Provider

@@ -1,16 +1,6 @@
 import firebase from "firebase/compat/app";
 import uniqid from "uniqid";
-// import moment from "moment";
 import { initializeApp } from "firebase/app";
-// import {
-//   getFirestore,
-//   collection,
-//   addDoc,
-//   getDocs,
-//   doc,
-//   setDoc,
-// } from "firebase/firestore";
-
 import {
   getDatabase,
   ref,
@@ -20,8 +10,8 @@ import {
   onValue,
   query,
   orderByChild,
+  update
 } from "firebase/database";
-
 import {
   getAuth,
   createUserWithEmailAndPassword,
@@ -46,7 +36,6 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
-// const db = getFirestore(app); //firestore
 const database = getDatabase(app); //realtime database
 const auth = getAuth();
 const provider = new GoogleAuthProvider();
@@ -80,10 +69,12 @@ const register = (auth, email, password, name) => {
       // Signed in
       const user = userCredential.user;
 
-      set(ref(ddb, "users/" + user.uid), {
-        username: name,
+      set(ref(db, "users/" + user.uid), {
+        displayName: name,
         email: email,
         dateCreated: dateFormatted,
+        uid: user.uid,
+        authProvider: "local",
       });
     })
     .catch((error) => {
@@ -93,19 +84,29 @@ const register = (auth, email, password, name) => {
     });
 };
 
-const profileUpdate = (name, URL) => {
+//updates profile picture in auth and database
+const profileUpdate = (URL, userId) => {
   updateProfile(auth.currentUser, {
-    displayName: name,
     photoURL: URL,
   })
-    .then(() => {
-      // Profile updated!
-      console.log("name updated", name);
-    })
-    .catch((error) => {
-      // An error occurred
-    });
+
+  update(ref(db, 'users/' + userId), {
+        "photoURL": URL
+      });
+
+  // let userRef = ref('users/' + userId);
+  // userRef.child(userId).set({newPhotoURl: URL}).then().catch();
 };
+
+// //updates profile picture in auth and database
+// const profileUpdate = (URL, userId) => {
+//   updateProfile(auth.currentUser, {
+//     photoURL: URL,
+//   })
+//   set(ref(db, 'users/' + userId), {
+//     photoURL: URL
+//   });
+// };
 
 //sign in a user
 const signIn = (auth, email, password) => {
@@ -133,13 +134,23 @@ const signInWithGoogle = (auth, provider) => {
       console.log(user);
       let dateNow = new Date();
       let dateFormatted = moment(dateNow).format("ddd DD MMM, HH:mm");
-      const docRef = addDoc(collection(db, "users"), {
+
+      set(ref(db, "users/" + user.uid), {
         uid: user.uid,
         displayName: user.displayName,
         authProvider: "google",
         email: user.email,
         dateCreated: dateFormatted,
+        photoURL: user.photoURL,
       });
+
+      // const docRef = addDoc(collection(db, "users"), {
+      //   uid: user.uid,
+      //   displayName: user.displayName,
+      //   authProvider: "google",
+      //   email: user.email,
+      //   dateCreated: dateFormatted,
+      // });
     })
     .catch((error) => {
       // Handle Errors here.
@@ -161,19 +172,8 @@ const logout = () => {
     });
 };
 
-//get data from rl database
-const getTweetFirestore = () => {
-  const allTweets = query(ref(db, "tweets"), orderByChild("dateCreated"));
-  console.log(allTweets);
-  // const starCountRef = ref(db, 'posts/' + postId + '/starCount');
-  // onValue(starCountRef, (snapshot) => {
-  //   const data = snapshot.val();
-  //   updateStarCount(postElement, data);
-  // });
-};
-
-//add data to rt databasw
-const sendTweetFirestore = (input, name, dateFormatted) => {
+//add data to databasw
+const sendTweetDatabase = (input, name, dateFormatted) => {
   set(ref(db, "tweets/" + uniqid()), {
     content: input,
     userName: name,
@@ -188,10 +188,9 @@ export {
   provider,
   signInWithGoogle,
   logout,
-  sendTweetFirestore,
-  getTweetFirestore,
+  sendTweetDatabase,
   db,
-  firebaseConfig,
+  set,
   profileUpdate,
   query,
   orderByChild,

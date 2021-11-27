@@ -2,7 +2,7 @@ import React from "react";
 import { useContext, useState, useEffect } from "react";
 import AppContext from "../Context/AppContext";
 
-import { auth } from "./Firebase";
+import { auth, profileUpdate } from "./Firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useHistory } from "react-router-dom";
 
@@ -27,6 +27,9 @@ export default function Profile() {
       appContext.setCurrentUser(user);
       const fullDateCreated = user.metadata.creationTime.slice(0, 16);
       dateCreated = fullDateCreated.slice(4);
+      if (user.photoURL) {
+        setURL(user.photoURL);
+      }
     }
 
     //if not redirecting to login
@@ -36,10 +39,6 @@ export default function Profile() {
     }
   }, [user, loading]);
 
-  // useEffect(() => {
-  //   setURL(appContext.currentUser.photoUrl);
-  // }, [appContext.currentUser]);
-
   // uploading profile pjoto
   const [imageAsFile, setImageAsFile] = useState();
   const storage = getStorage();
@@ -48,55 +47,30 @@ export default function Profile() {
   const [URL, setURL] = useState();
   const [isUrl, setisUrl] = useState(false);
 
-  // useEffect(() => {
-  //   if (imageAsFile) {
-  //     console.log("start of upload");
-
-  //     //sending the photo to storage
-  //     uploadBytes(storageRef, imageAsFile).then((snapshot) => {
-  //       console.log("Uploaded a blob or file!");
-  //     });
-
-  //     //getting back a url and updating the user doc in firestore
-  //     getDownloadURL(storageRef).then((url) => {
-  //       console.log(url);
-  //       setURL(url);
-  //       setTimeout(() => {
-  //         setisUrl(true)
-  //       },[1000])
-
-  //       db.collection("users").doc(appContext.currentUser.uid).update({
-  //         photoUrl: url,
-  //       });
-
-  //       setTimeout(() => {
-  //         setisUrl(false)
-  //       },[5000])
-  //     });
-  //   }
-  // }, [imageAsFile]);
-
+  // profile image update
   useEffect(() => {
     if (imageAsFile) {
-      console.log("start of upload");
-
-      //sending the photo to storage
+      setisUrl(true);
+      //sending the photo to storage, recieving the url and updating user's profile
       uploadBytes(storageRef, imageAsFile).then((snapshot) => {
-        console.log("Uploaded a blob or file!");
-      });
+          getDownloadURL(storageRef).then((url) => {
+            console.log(url)
+          setURL(url);
+          profileUpdate(url, user.uid);
+          setTimeout(() => {
+            setisUrl(false);
+          }, [2000]);
+        });
 
-      //getting back a url and updating the user doc in firestore
-      getDownloadURL(storageRef).then((url) => {
-        console.log(url);
-        setURL(url);
-        setTimeout(() => {
-          setisUrl(true)
-        },[])
+        //updating database profile
+        
+
+
 
         // db.collection("users").doc(appContext.currentUser.uid).update({
         //   photoUrl: url,
         // });
-        
+
         // setTimeout(() => {
         //   setisUrl(false)
         // },[5000])
@@ -128,9 +102,7 @@ export default function Profile() {
           </div>
           <div>
             <span className="profile-createdAt">Created at: </span>
-            <span className="profile-info-fetched">
-              {dateCreated}
-            </span>
+            <span className="profile-info-fetched">{dateCreated}</span>
           </div>
         </div>
         <div className="photo-wrapper">
@@ -146,9 +118,7 @@ export default function Profile() {
               onChange={handleImageAsFile}
             ></input>
           </div>
-          <div className={`notification-submit-${isUrl}`}>
-            Saved! Reload the page for update.
-          </div>
+          <div className={`notification-submit-${isUrl}`}>Saving...</div>
         </div>
       </div>
     </div>

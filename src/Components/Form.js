@@ -3,26 +3,15 @@ import { useContext, useEffect } from "react";
 import Loader from "./Loader";
 import moment from "moment";
 import AppContext from "../Context/AppContext";
-
 import {
   auth,
-  sendTweetFirestore,
-  firebaseConfig,
-  query,
-  orderByChild,
+  sendTweetDatabase,
   db,
   ref,
   onValue
 } from "./Firebase";
 import { useHistory } from "react-router-dom";
 import { useAuthState } from "react-firebase-hooks/auth";
-
-// import firebase from "firebase/compat/app";
-// import "firebase/compat/auth";
-// import "firebase/compat/firestore";
-
-// // Initialize Firebase
-// firebase.initializeApp(firebaseConfig);
 
 export default function Form(props) {
   const appContext = useContext(AppContext);
@@ -37,22 +26,6 @@ export default function Form(props) {
     if (user) {
       history.replace("/");
       appContext.setCurrentUser(user);
-
-      // firebase
-      //   .firestore()
-      //   .collection("users")
-      //   .onSnapshot((snapshot) => {
-      //     const data = snapshot.docs.map((doc) => ({
-      //       id: doc.id,
-      //       ...doc.data(),
-      //     }));
-      //     console.log(data);
-      //     let thisUser = data.filter((item) => {
-      //       return item.id == user.uid;
-      //     });
-      //     console.log(thisUser);
-      //     appContext.setCurrentUser(thisUser[0]);
-      //   });
     }
     if (!user) {
       history.replace("/login");
@@ -105,10 +78,11 @@ export default function Form(props) {
     // emptying the input field and storage
     appContext.setInput("");
 
+
     //sending to the server
     setTimeout(() => {
       if (appContext.input !== "") {
-        sendTweetFirestore(appContext.input, appContext.currentUser.displayName, dateFormatted);
+        sendTweetDatabase(appContext.input, appContext.currentUser.displayName, dateFormatted);
         appContext.setIsLoading(false);
       }
     }, [500]);
@@ -142,7 +116,7 @@ export default function Form(props) {
           <Loader />
         ) : (
           <button
-            // onClick={handleTweet}
+            onClick={handleTweet}
             disabled={!appContext.isInput}
             className={`input-${appContext.isInput}`}
           >
