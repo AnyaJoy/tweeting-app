@@ -2,7 +2,6 @@ import React from "react";
 import { useContext } from "react";
 import AppContext from "../Context/AppContext";
 
-
 export default function TweetList() {
   const appContext = useContext(AppContext);
 

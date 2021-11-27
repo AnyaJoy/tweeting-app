@@ -289,7 +289,6 @@
   position: absolute;
   top: 325px;
   left: 20px;
-
 }
 
 .notification-submit-false {
@@ -482,7 +481,7 @@ img {
 .update-picture-button:hover {
   cursor: pointer;
   opacity: 1;
-} 
+}
 
 .upload-photo {
   cursor: pointer;
@@ -621,63 +620,66 @@ img {
   }
 }
 
-/* loader profile
-.loader2 {
-  position: absolute;
-  right: 15px;
-  top: 165px;
+.header-menu-wrapper {
+  width: 49%;
+  margin: auto;
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+  font-weight: 300;
+  font-size: 1rem;
 }
 
-.loader2 span {
-  vertical-align: middle;
-  border-radius: 100%;
+.feed {
+  color: white;
+  font-weight: 300;
+  font-size: 1.1rem;
+  border-left: #343A40FF 3px solid;
+  padding-left: 6px;
+}
 
-  display: inline-block;
-  width: 10px;
-  height: 10px;
-  margin: 3px 2px;
-  -webkit-animation: loader1 0.8s linear infinite alternate;
-  animation: loader1 0.8s linear infinite alternate;
+div[role="menu"].visible {
+  visibility: visible;
+  background: #343A40FF;
+  border-radius: 5px;
+  /* position: absolute;
+  right: 85px;
+  top: 0px; */
+  padding: 3px 10px 3px 10px;
 }
-.loader2 span:nth-child(1) {
-  -webkit-animation-delay: -1s;
-  animation-delay: -1s;
-  background: rgba(0, 123, 255, 0.6);
-}
-.loader2 span:nth-child(2) {
-  -webkit-animation-delay: -0.8s;
-  animation-delay: -0.8s;
-  background: rgba(0, 123, 255, 0.8);
-}
-.loader2 span:nth-child(3) {
-  -webkit-animation-delay: -0.26666s;
-  animation-delay: -0.26666s;
-  background: rgba(0, 123, 255, 1);
-}
-.loader2 span:nth-child(4) {
-  -webkit-animation-delay: -0.8s;
-  animation-delay: -0.8s;
-  background: rgba(0, 123, 255, 0.8);
-}
-.loader2 span:nth-child(5) {
-  -webkit-animation-delay: -1s;
-  animation-delay: -1s;
-  background: rgba(0, 123, 255, 0.4);
-} */
 
-/* @keyframes loader2 {
-  from {
-    transform: scale(0, 0);
-  }
-  to {
-    transform: scale(1, 1);
-  }
+.dropdown-header {
+  text-align: justify;
 }
-@-webkit-keyframes loader2 {
-  from {
-    -webkit-transform: scale(0, 0);
-  }
-  to {
-    -webkit-transform: scale(1, 1);
-  }
-} */
+
+.dropdown-button {
+  border: none;
+  background: none;
+  color: white;
+  height: 25px;
+  cursor: pointer;
+  font-weight: 300;
+  font-size: 1rem;
+  background-color: #007bffff;
+  border-radius: 5px;
+  padding: 0 10px 0 10px;
+}
+
+.div-line {
+  color: white;
+  padding: 10px 10px;
+}
+
+.dropdown-option {
+  cursor: pointer;
+  color: white;
+}
+
+.selected-true {
+  color: white;
+}
+
+.selected-false {
+  color: #999C9FFF;
+}
