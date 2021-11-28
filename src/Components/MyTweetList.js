@@ -7,7 +7,8 @@ export default function TweetList() {
 
   return (
     <>
-      {appContext.myTweetStorage.map((item, index) => {
+      {appContext.tweetStorage.map((item, index) => {
+        if (item.userName === appContext.currentUser.displayName) {
         return (
           <div key={1 + index} className="tweet-wrapper">
             <div className="user-name-and-date">
@@ -17,6 +18,7 @@ export default function TweetList() {
             <div className="tweet">{item.content}</div>
           </div>
         );
+        }
       })}
     </>
   );

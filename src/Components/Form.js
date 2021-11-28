@@ -16,7 +16,6 @@ import { useAuthState } from "react-firebase-hooks/auth";
 export default function Form(props) {
   const appContext = useContext(AppContext);
 
-  var myTweets = [];
   const [user, loading] = useAuthState(auth);
   const history = useHistory();
   useEffect(() => {
@@ -91,23 +90,15 @@ export default function Form(props) {
 
   // recieving the tweets from server on pageload and on change
   useEffect(() => {
-    myTweets = [];
     onValue(ref(db, "tweets"), (snapshot) => {
       var tweetsArray = [];
+
       snapshot.forEach((childSnapshot) => {
         const data = childSnapshot.val();
-        tweetsArray.push(data)
+        tweetsArray.push(data);        
       });
-      let descendingTweetsArray = tweetsArray.reverse();
-      appContext.setTweetStorage(descendingTweetsArray)
-      console.log(descendingTweetsArray)
-
-      for (let i=0; i < descendingTweetsArray.length; i++) {
-        if (descendingTweetsArray[i].userName == appContext.currentUser.displayName) {
-          myTweets.push(descendingTweetsArray[i])
-        }
-      };
-      appContext.setMyTweetStorage(myTweets)
+    
+      appContext.setTweetStorage(tweetsArray.reverse())
     })
   }, []);
 

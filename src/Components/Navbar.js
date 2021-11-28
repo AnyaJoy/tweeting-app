@@ -4,6 +4,7 @@ import AppContext from "../Context/AppContext";
 import "../App.css";
 import { Link, useLocation } from "react-router-dom";
 import { logout } from "./Firebase";
+import useDropdownMenu from "react-accessible-dropdown-menu-hook";
 
 export default function Navbar() {
   const appContext = useContext(AppContext);
@@ -36,32 +37,35 @@ export default function Navbar() {
     }
   };
 
-  function changeLocationHome() {
-    location = "home";
-  }
 
-  function changeLocationProfile() {
-    location = "profile";
-  }
 
   return (
     <div className="nav-bar" onClick={checkLocation}>
       {appContext.currentUser ? (
+        
         <span>
           <Link
             to="/"
-            onClick={changeLocationHome}
+            onClick={() => {location = "home";}}
+            className="label"
+          >
+            Tweet out!
+          </Link>
+          <Link
+            to="/"
+            onClick={() => {location = "home";}}
             className={`home-${appContext.homeActive}`}
           >
             Home
           </Link>
           <Link
             to="/profile"
-            onClick={changeLocationProfile}
+            onClick={() => {location = "profile"}}
             className={`profile-${appContext.profileActive}`}
           >
             Profile
           </Link>
+          <span className="searchbar-wrapper"><input type="text" placeholder="Search..." className="searchbar"></input></span>
           <span
             onClick={logout}
             className="logout"
@@ -72,8 +76,7 @@ export default function Navbar() {
       ) : (
         <Link
           to="/login"
-          // onClick={changeLocationLogin}
-          className={`login-true`}
+          className={`login`}
         >
           Login ➜]
         </Link>
