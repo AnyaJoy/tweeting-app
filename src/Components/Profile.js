@@ -101,7 +101,7 @@ export default function Profile() {
             </span>
           </div>
           <div>
-            <span className="profile-createdAt">Created at: </span>
+            <span className="profile-createdAt">Registered at: </span>
             <span className="profile-info-fetched">{dateCreated}</span>
           </div>
         </div>

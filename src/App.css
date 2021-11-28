@@ -97,6 +97,8 @@
 
 .searchbar-wrapper {
   margin: 0 0 0 60px;
+  position: relative;
+  
 }
 
 .searchbar {
@@ -116,20 +118,6 @@
   color: white;
   opacity: 0.5;
 }
-
-/* .searchbar {
-  margin-top: 10px;
-  width: 300px;
-  height: 30px;
-  color: white;
-  background-color: transparent;
-  border: 0.5px solid #ccccccff;
-  border-radius: 5px;
-  padding: 15px;
-  font-weight: 300;
-  font-size: 0.9rem;
-  resize: none;
-} */
 
 .logout {
   color: white;
@@ -429,7 +417,7 @@ button {
   border: none;
 }
 
-.reset-button {
+/* .reset-button {
   width: 100%;
   background-color: #15202bff;
   font-size: 18px;
@@ -441,7 +429,7 @@ button {
   border: none;
   margin-right: 15px;
   text-decoration: none;
-}
+} */
 
 .profile-and-picture-wrapper {
   width: 100%;
@@ -674,10 +662,8 @@ img {
   padding-left: 6px;
 }
 
-div[role="menu"].visible {
+.toggler {
   visibility: visible;
-  background: #343a40ff;
-  border-radius: 5px;
   padding: 3px 10px 3px 10px;
 }
 
@@ -717,3 +703,48 @@ div[role="menu"].visible {
   color: #999c9fff;
   cursor: pointer;
 }
+
+/* search */
+.dropdown-search-menu {
+  width: 200px;
+  position: absolute;
+  left: 0;
+}
+
+div[role="menu"].visible {
+  visibility: visible;
+  margin-top: 15px;
+  z-index: 1;
+  border: 1px solid grey;
+  background-color: #343a40ff;
+  border-radius: 5px;
+  padding: 4px;
+  color: white;
+  font-weight: 300;
+  width: 140px;
+  position: absolute;
+  left: 0;
+}
+
+div[role="menu"] {
+  visibility: hidden;
+  
+}
+
+/* .dropdown-button {
+  border: none;
+  background: none;
+  color: white;
+  height: 25px;
+  cursor: pointer;
+  font-weight: 300;
+  font-size: 1rem;
+  background-color: #007bffff;
+  border-radius: 5px;
+  padding: 0 10px 0 10px;
+} */
+
+/* .dropdown-option {
+  cursor: pointer;
+  color: white;
+} */
