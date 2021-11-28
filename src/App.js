@@ -27,6 +27,8 @@ function App() {
   const [isSubmit, setIsSubmit] = useState(false);
   //tweet storage
   const [tweetStorage, setTweetStorage] = useState([]);
+  //my tweet storage
+  const [myTweetStorage, setMyTweetStorage] = useState([]);
   //current page location
   const [location, setLocation] = useState("");
   const [redirect, setRedirect] = useState();
@@ -68,6 +70,8 @@ function App() {
         setRedirect: setRedirect,
         currentUser: currentUser,
         setCurrentUser: setCurrentUser,
+        myTweetStorage:myTweetStorage,
+        setMyTweetStorage,setMyTweetStorage,        
       }}
     >
       <div className="content-wrapper">

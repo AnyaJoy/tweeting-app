@@ -34,9 +34,6 @@ function Home() {
         <div className="header-menu-wrapper">
         <span className="feed">Feed</span>
           <span className="dropdown-header">
-            {/* <button {...buttonProps} className="dropdown-button">
-              Show »
-            </button> */}
             <div className={isOpen ? "visible" : ""} role="menu">
               <span className="dropdown-option" className={`selected-${allTweetsSelected}`} onClick={handleSelectAllTweets}>
                 All Tweets

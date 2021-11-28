@@ -678,8 +678,10 @@ div[role="menu"].visible {
 
 .selected-true {
   color: white;
+  cursor: default;
 }
 
 .selected-false {
   color: #999C9FFF;
+  cursor: pointer;
 }
