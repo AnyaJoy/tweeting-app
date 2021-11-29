@@ -98,12 +98,11 @@
 .searchbar-wrapper {
   margin: 0 0 0 60px;
   position: relative;
-  
 }
 
 .searchbar {
   margin-top: 12px;
-  width: 375px;
+  width: 42%;
   height: 30px;
   color: white;
   background-color: transparent;
@@ -706,7 +705,7 @@ img {
 
 /* search */
 .dropdown-search-menu {
-  width: 200px;
+  width: 100%;;
   position: absolute;
   left: 0;
 }
@@ -728,7 +727,61 @@ div[role="menu"].visible {
 
 div[role="menu"] {
   visibility: hidden;
-  
+}
+
+.search-this-true {
+  opacity: 1;
+}
+
+.search-this-false {
+  opacity: 0.5;
+}
+
+.search-this-true:hover {
+  background-color: rgba(97, 101, 105, 0.329);
+  color: white;
+  cursor: pointer;
+}
+
+.search-this-false:hover {
+  background-color: rgba(97, 101, 105, 0.329);
+  color: white;
+  cursor: pointer;
+}
+
+.search-button-true {
+  border: none;
+  background: none;
+  color: white;
+  height: 25px;
+  cursor: pointer;
+  font-weight: 300;
+  font-size: 1rem;
+  border-radius: 5px;
+  padding: 0 10px 0 10px;
+  position: absolute;
+  right: 0;
+  top: -22px;
+  background-image: url("../src/mag_glass.svg");
+  background-repeat: no-repeat;
+}
+
+.search-button-false {
+  border: none;
+  background: none;
+  color: white;
+  height: 25px;
+  cursor: pointer;
+  font-weight: 300;
+  font-size: 1rem;
+  border-radius: 5px;
+  padding: 0 10px 0 10px;
+  position: absolute;
+  right: 0;
+  top: -22px;
+  background-image: url("../src/mag_glass.svg");
+  background-repeat: no-repeat;
+  opacity: 0.5;
 }
 
 /* .dropdown-button {
@@ -742,9 +795,4 @@ div[role="menu"] {
   background-color: #007bffff;
   border-radius: 5px;
   padding: 0 10px 0 10px;
-} */
-
-/* .dropdown-option {
-  cursor: pointer;
-  color: white;
 } */
