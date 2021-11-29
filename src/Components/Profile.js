@@ -54,26 +54,12 @@ export default function Profile() {
       //sending the photo to storage, recieving the url and updating user's profile
       uploadBytes(storageRef, imageAsFile).then((snapshot) => {
           getDownloadURL(storageRef).then((url) => {
-            console.log(url)
           setURL(url);
           profileUpdate(url, user.uid);
           setTimeout(() => {
             setisUrl(false);
           }, [2000]);
         });
-
-        //updating database profile
-        
-
-
-
-        // db.collection("users").doc(appContext.currentUser.uid).update({
-        //   photoUrl: url,
-        // });
-
-        // setTimeout(() => {
-        //   setisUrl(false)
-        // },[5000])
       });
     }
   }, [imageAsFile]);

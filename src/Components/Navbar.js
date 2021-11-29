@@ -6,7 +6,8 @@ import { Link, useLocation } from "react-router-dom";
 import { logout } from "./Firebase";
 import useDropdownMenu from "react-accessible-dropdown-menu-hook";
 import Loader from "./Loader";
-import mag_glass_icon from "../mag_glass.svg"
+
+import { auth, sendTweetDatabase, db, ref, onValue } from "./Firebase";
 
 export default function Navbar() {
   const appContext = useContext(AppContext);
@@ -25,10 +26,16 @@ export default function Navbar() {
       appContext.setHomeActive(false);
       appContext.setProfileActive(true);
     }
+    if (currentLocation.pathname === "/search") {
+      appContext.setHomeActive(false);
+      appContext.setProfileActive(false);
+    }
   }, [appContext.currentUser]);
 
   //checks location on navbar click
   const checkLocation = () => {
+    appContext.setSearchInput("");
+    appContext.setRedirect("");
     if (location === "home") {
       appContext.setHomeActive(true);
       appContext.setProfileActive(false);
@@ -54,39 +61,57 @@ export default function Navbar() {
     setSearchByTweet(false);
   };
 
-  const [searchInput, setSearchInput] = useState("");
+  // const [searchInput, setSearchInput] = useState("");
   const [isSearchinput, setIsSearchInput] = useState(false);
   const [isSearching, setIsSearching] = useState(false);
 
   function submitOnEnter(event) {
-    if (event.key === "Enter") {
-      event.preventDefault();
-      event.stopPropagation();
-      handleTweet();
+    if (appContext.searchInput) {
+      if (event.key === "Enter") {
+        event.preventDefault();
+        event.stopPropagation();
+        handleSearch();
+      }
     }
   }
 
+  // // recieving the tweets from server on pageload and on change
+  // useEffect(() => {
+  //   onValue(ref(db, "tweets"), (snapshot) => {
+  //     var tweetsArray = [];
+
+  //     snapshot.forEach((childSnapshot) => {
+  //       const data = childSnapshot.val();
+  //       tweetsArray.push(data);
+  //     });
+
+  //     appContext.setTweetStorage(tweetsArray.reverse());
+  //   });
+  // }, []);
+
   function handleSearch(e) {
-    // setIsSearchInput(true);
+    appContext.setRedirect("/search");
+    appContext.setHomeActive(false);
+    appContext.setProfileActive(false);
+    setIsSearching(true);
 
-    setSearchInput("");
-
-    //sending to the server
     setTimeout(() => {
-      if (searchInput !== "") {
-        // setIsSearchInput(false);
+      if (appContext.searchInput !== "") {
+        setIsSearching(false);
       }
     }, [500]);
   }
 
   // enabling the search button
   useEffect(() => {
-    if (searchInput) {
+    if (appContext.searchInput) {
       setIsSearchInput(true);
+      handleSearch();
     } else {
       setIsSearchInput(false);
+      appContext.setRedirect("/");
     }
-  }, [searchInput]);
+  }, [appContext.searchInput]);
 
   return (
     <div className="nav-bar" onClick={checkLocation}>
@@ -124,8 +149,8 @@ export default function Navbar() {
               {...buttonProps}
               type="text"
               className="searchbar"
-              value={searchInput}
-              onChange={(e) => setSearchInput(e.target.value)}
+              value={appContext.searchInput}
+              onChange={(e) => appContext.setSearchInput(e.target.value)}
               onKeyDown={submitOnEnter}
               placeholder="Search..."
             ></input>
@@ -145,13 +170,13 @@ export default function Navbar() {
                 </div>
               </div>
               {isSearching ? (
-                <Loader />
+                <Loader classname={"loader2"} />
               ) : (
-                  <button
-                    onClick={handleSearch}
-                    disabled={!isSearchinput}
-                    className={`search-button-${isSearchinput}`}
-                  ></button>
+                <button
+                  onClick={handleSearch}
+                  disabled={!isSearchinput}
+                  className={`search-button-${isSearchinput}`}
+                ></button>
               )}
             </div>
           </span>

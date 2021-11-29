@@ -4,6 +4,7 @@ import Profile from "./Components/Profile";
 import Navbar from "./Components/Navbar";
 import Login from "./Components/Login";
 import Signup from "./Components/Signup";
+import Search from "./Components/Search";
 import { useState, useEffect } from "react";
 import AppContext from "./Context/AppContext";
 import { BrowserRouter as Router, Route, Redirect } from "react-router-dom";
@@ -32,6 +33,7 @@ function App() {
   const [redirect, setRedirect] = useState();
   //user
   const [currentUser, setCurrentUser] = useState(false);
+  const [searchInput, setSearchInput] = useState("");
 
   useEffect(() => {
     console.log(currentUser);
@@ -67,7 +69,9 @@ function App() {
         redirect: redirect,
         setRedirect: setRedirect,
         currentUser: currentUser,
-        setCurrentUser: setCurrentUser,       
+        setCurrentUser: setCurrentUser,
+        searchInput: searchInput,
+        setSearchInput: setSearchInput,
       }}
     >
       <div className="content-wrapper">
@@ -78,6 +82,7 @@ function App() {
           <Route exact path="/profile" component={Profile} />
           <Route exact path="/login" component={Login} />
           <Route exact path="/signup" component={Signup} />
+          <Route exact path="/search" component={Search} />
         </Router>
       </div>
     </AppContext.Provider>

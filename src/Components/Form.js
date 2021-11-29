@@ -24,7 +24,7 @@ export default function Form(props) {
       return;
     }
     if (user) {
-      history.replace("/");
+      // history.replace("/");
       appContext.setCurrentUser(user);
     }
     if (!user) {
@@ -114,7 +114,7 @@ export default function Form(props) {
         />
 
         {appContext.isLoading ? (
-          <Loader />
+          <Loader classname={"loader1"}/>
         ) : (
           <button
             onClick={handleTweet}
