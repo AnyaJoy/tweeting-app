@@ -2,6 +2,8 @@ import React from "react";
 import { useContext, useState } from "react";
 import AppContext from "../Context/AppContext";
 import useDropdownMenu from "react-accessible-dropdown-menu-hook";
+import emptyHeart from "../empty-heart.png";
+import whiteHeart from "../white-heart.png";
 
 export default function TweetList() {
   const appContext = useContext(AppContext);
@@ -26,47 +28,78 @@ export default function TweetList() {
 
   return (
     <>
-    <div className="header-menu-wrapper">
+      <div className="header-menu-wrapper">
         <span className="feed">Feed</span>
-          <span className="dropdown-header">
-            <div className="toggler">
-              <span className="dropdown-option" className={`selected-${allTweetsSelected}`} onClick={handleSelectAllTweets}>
-                All Tweets
-              </span>
-              <span className="div-line">|</span>
-              <span className="dropdown-option" className={`selected-${myTweetsSelected}`} onClick={handleSelectMyTweets}>
-                 My Tweets
-              </span>
-            </div>
-          </span>
-        </div>
-
-    {allTweetsSelected ? (appContext.tweetStorage.map((item, index) => {
-        return (
-          <div key={1 + index} className="tweet-wrapper">
-            <div className="user-name-and-date">
-              <div className="user-name">{item.userName}</div>
-              <div className="date">{item.date}</div>
-            </div>
-            <div className="tweet">{item.content}</div>
+        <span className="dropdown-header">
+          <div className="toggler">
+            <span
+              className="dropdown-option"
+              className={`selected-${allTweetsSelected}`}
+              onClick={handleSelectAllTweets}
+            >
+              All Tweets
+            </span>
+            <span className="div-line">|</span>
+            <span
+              className="dropdown-option"
+              className={`selected-${myTweetsSelected}`}
+              onClick={handleSelectMyTweets}
+            >
+              My Tweets
+            </span>
           </div>
-        );
-      })
-      ) : (
-        appContext.tweetStorage.map((item, index) => {
-          if (item.userName === appContext.currentUser.displayName) {
-          return (
-            <div key={1 + index} className="tweet-wrapper">
-              <div className="user-name-and-date">
-                <div className="user-name">{item.userName}</div>
-                <div className="date">{item.date}</div>
+        </span>
+      </div>
+
+      {allTweetsSelected
+        ? appContext.tweetStorage.map((item, index) => {
+            return (
+              <div key={1 + index} className="tweet-wrapper">
+                <div className="user-name-and-date">
+                  <div className="user-name">{item.userName}</div>
+                  <div className="date">{item.date}</div>
+                </div>
+                <div className="tweet">{item.content}</div>
+
+                
+
+                {appContext.liked ? (
+                  <img
+                    src={whiteHeart}
+                    onClick={() => {
+                      appContext.setLiked(false);
+                    }}
+                    className="like-button-true"
+                  ></img>
+                ) : (
+                  <img
+                    src={emptyHeart}
+                    onClick={() => {
+                      appContext.setLiked(true);
+                    }}
+                    className="like-button-true"
+                  ></img>
+
+
+
+                )}
               </div>
-              <div className="tweet">{item.content}</div>
-            </div>
-          );
-          }
-        })
-      )}
+            );
+          })
+        : appContext.tweetStorage.map((item, index) => {
+            if (item.userName === appContext.currentUser.displayName) {
+              return (
+                <div key={1 + index} className="tweet-wrapper">
+                  <div className="user-name-and-date">
+                    <div className="user-name">{item.userName}</div>
+                    <div className="date">{item.date}</div>
+                  </div>
+                  <div className="tweet">{item.content}</div>
+                  <img src={emptyHeart} className="like-button-true"></img>
+                </div>
+              );
+            }
+          })}
     </>
   );
-  }
+}

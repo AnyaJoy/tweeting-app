@@ -37,6 +37,7 @@ function App() {
   //search
   const [searchByTweet, setSearchByTweet] = useState(true);
   const [searchByUser, setSearchByUser] = useState(false);
+  const [liked, setLiked] = useState(false);
 
   useEffect(() => {
     console.log(currentUser);
@@ -79,6 +80,8 @@ function App() {
         setSearchByTweet: setSearchByTweet,
         searchByUser: searchByUser,
         setSearchByUser: setSearchByUser,
+        liked: liked,
+        setLiked: setLiked,
       }}
     >
       <div className="content-wrapper">

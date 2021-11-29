@@ -32,23 +32,21 @@ export default function Navbar() {
     }
   }, [appContext.currentUser]);
 
-  //checks location on navbar click
-  const checkLocation = () => {
-    appContext.setSearchInput("");
-    appContext.setRedirect("");
-    if (location === "home") {
-      appContext.setHomeActive(true);
-      appContext.setProfileActive(false);
-    }
-    if (location === "profile") {
-      appContext.setHomeActive(false);
-      appContext.setProfileActive(true);
-    }
-  };
+  // //checks location on navbar click
+  // const checkLocation = () => {
+  //   appContext.setSearchInput("");
+  //   if (location === "home") {
+  //     appContext.setHomeActive(true);
+  //     appContext.setProfileActive(false);
+  //   }
+  //   if (location === "profile") {
+  //     appContext.setHomeActive(false);
+  //     appContext.setProfileActive(true);
+  //   }
+  // };
 
   // const [searchByTweet, setSearchByTweet] = useState(true);
   // const [searchByUser, setSearchByUser] = useState(false);
-  
 
   const { buttonProps, itemProps, isOpen, setIsOpen } = useDropdownMenu(2);
 
@@ -76,24 +74,11 @@ export default function Navbar() {
     }
   }
 
-  // // recieving the tweets from server on pageload and on change
-  // useEffect(() => {
-  //   onValue(ref(db, "tweets"), (snapshot) => {
-  //     var tweetsArray = [];
-
-  //     snapshot.forEach((childSnapshot) => {
-  //       const data = childSnapshot.val();
-  //       tweetsArray.push(data);
-  //     });
-
-  //     appContext.setTweetStorage(tweetsArray.reverse());
-  //   });
-  // }, []);
-
   function handleSearch(e) {
     appContext.setRedirect("/search");
     appContext.setHomeActive(false);
     appContext.setProfileActive(false);
+
     setIsSearching(true);
 
     setTimeout(() => {
@@ -111,17 +96,19 @@ export default function Navbar() {
     } else {
       setIsSearchInput(false);
       appContext.setRedirect("/");
+      appContext.setHomeActive(true);
     }
   }, [appContext.searchInput]);
 
   return (
-    <div className="nav-bar" onClick={checkLocation}>
+    <div className="nav-bar">
       {appContext.currentUser ? (
         <span>
           <Link
             to="/"
             onClick={() => {
-              location = "home";
+              appContext.setHomeActive(true);
+              appContext.setProfileActive(false);
             }}
             className="label"
           >
@@ -130,7 +117,8 @@ export default function Navbar() {
           <Link
             to="/"
             onClick={() => {
-              location = "home";
+              appContext.setHomeActive(true);
+              appContext.setProfileActive(false);
             }}
             className={`home-${appContext.homeActive}`}
           >
@@ -139,7 +127,8 @@ export default function Navbar() {
           <Link
             to="/profile"
             onClick={() => {
-              location = "profile";
+              appContext.setHomeActive(false);
+              appContext.setProfileActive(true);
             }}
             className={`profile-${appContext.profileActive}`}
           >
