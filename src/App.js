@@ -34,6 +34,9 @@ function App() {
   //user
   const [currentUser, setCurrentUser] = useState(false);
   const [searchInput, setSearchInput] = useState("");
+  //search
+  const [searchByTweet, setSearchByTweet] = useState(true);
+  const [searchByUser, setSearchByUser] = useState(false);
 
   useEffect(() => {
     console.log(currentUser);
@@ -72,6 +75,10 @@ function App() {
         setCurrentUser: setCurrentUser,
         searchInput: searchInput,
         setSearchInput: setSearchInput,
+        searchByTweet: searchByTweet,
+        setSearchByTweet: setSearchByTweet,
+        searchByUser: searchByUser,
+        setSearchByUser: setSearchByUser,
       }}
     >
       <div className="content-wrapper">

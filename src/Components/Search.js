@@ -23,15 +23,15 @@ export default function TweetList() {
 
   return (
     <>
-      <div className="search-wrapper">
-        <div className="header-profile">Search</div>
+    {appContext.searchByTweet ? 
+    //search by tweet content
+    (<div className="search-wrapper">
+        <div className="header-profile">Search by tweet...</div>
         <div className="searched-tweets-wrapper">
           {appContext.tweetStorage.map((item, index) => {
             //case insensitive search
             if (item.content.toLowerCase().indexOf(appContext.searchInput) != -1) {
-              const parts = item.content.split(
-                new RegExp(`(${appContext.searchInput})`, "gi")
-              );
+              const parts = item.content.split(new RegExp(`(${appContext.searchInput})`, "gi"));
 
               return (
                 <div key={1 + index} className="tweet-wrapper">
@@ -55,6 +55,38 @@ export default function TweetList() {
           })}
         </div>
       </div>
+      ) : (
+        //search by user name
+      <div className="search-wrapper">
+        <div className="header-profile">Search by user...</div>
+        <div className="searched-tweets-wrapper">
+          {appContext.tweetStorage.map((item, index) => {
+           
+            if (item.userName.toLowerCase().indexOf(appContext.searchInput) != -1) {
+              const parts = item.userName.split(new RegExp(`(${appContext.searchInput})`, "gi"));
+
+              return (
+                <div key={1 + index} className="tweet-wrapper">
+                  <div className="user-name-and-date">
+                    <div className="user-name">{parts.map((part, index) =>
+                      part.toLowerCase() ===
+                      appContext.searchInput.toLowerCase() ? (
+                        <mark key={1 + index}>{part}</mark>
+                      ) : (
+                        part
+                      )
+                    )}</div>
+                    <div className="date">{item.date}</div>
+                  </div>
+                  <div className="tweet">
+                    {item.content}
+                  </div>
+                </div>
+              );
+            }
+          })}
+        </div>
+      </div>)}
     </>
   );
 }

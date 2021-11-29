@@ -46,19 +46,20 @@ export default function Navbar() {
     }
   };
 
-  const [searchByTweet, setSearchByTweet] = useState(true);
-  const [searchByUser, setSearchByUser] = useState(false);
+  // const [searchByTweet, setSearchByTweet] = useState(true);
+  // const [searchByUser, setSearchByUser] = useState(false);
+  
 
   const { buttonProps, itemProps, isOpen, setIsOpen } = useDropdownMenu(2);
 
   const handleSearchByTweet = () => {
-    setSearchByUser(false);
-    setSearchByTweet(true);
+    appContext.setSearchByUser(false);
+    appContext.setSearchByTweet(true);
   };
 
   const handleSearchByUser = () => {
-    setSearchByUser(true);
-    setSearchByTweet(false);
+    appContext.setSearchByUser(true);
+    appContext.setSearchByTweet(false);
   };
 
   // const [searchInput, setSearchInput] = useState("");
@@ -157,13 +158,13 @@ export default function Navbar() {
             <div className="dropdown-search-menu">
               <div className={isOpen ? "visible" : ""} role="menu">
                 <div
-                  className={`search-this-${searchByTweet}`}
+                  className={`search-this-${appContext.searchByTweet}`}
                   onClick={handleSearchByTweet}
                 >
                   • by tweets
                 </div>
                 <div
-                  className={`search-this-${searchByUser}`}
+                  className={`search-this-${appContext.searchByUser}`}
                   onClick={handleSearchByUser}
                 >
                   • by users
