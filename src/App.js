@@ -37,11 +37,12 @@ function App() {
   //search
   const [searchByTweet, setSearchByTweet] = useState(true);
   const [searchByUser, setSearchByUser] = useState(false);
-  const [liked, setLiked] = useState(false);
 
-  useEffect(() => {
-    console.log(currentUser);
-  }, [currentUser]);
+  const [likedTweets, setLikedTweets] = useState([]);
+
+  // useEffect(() => {
+  //   console.log(currentUser);
+  // }, [currentUser]);
 
   return (
     <AppContext.Provider
@@ -80,8 +81,8 @@ function App() {
         setSearchByTweet: setSearchByTweet,
         searchByUser: searchByUser,
         setSearchByUser: setSearchByUser,
-        liked: liked,
-        setLiked: setLiked,
+        likedTweets: likedTweets,
+        setLikedTweets: setLikedTweets,
       }}
     >
       <div className="content-wrapper">

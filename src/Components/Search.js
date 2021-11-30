@@ -40,7 +40,7 @@ export default function TweetList() {
                 );
 
                 return (
-                  <div key={1 + index} className="tweet-wrapper">
+                  <div key={item.id} className="tweet-wrapper">
                     <div className="user-name-and-date">
                       <div className="user-name">{item.userName}</div>
                       <div className="date">{item.date}</div>
@@ -78,7 +78,7 @@ export default function TweetList() {
                 );
 
                 return (
-                  <div key={1 + index} className="tweet-wrapper">
+                  <div key={item.id} className="tweet-wrapper">
                     <div className="user-name-and-date">
                       <div className="user-name">
                         {parts.map((part, index) =>

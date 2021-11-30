@@ -29,14 +29,11 @@ export default function Login() {
     if (loading) {
       return;
     }
-    //if yes redirecting to home page and loading current user data
     if (user) {
       history.replace("/")
       appContext.setCurrentUser(user)
     }
-     //if not redirecting to login
     if (!user) {
-      // history.replace("/login")
       appContext.setCurrentUser(false)
     }
   }, [user, loading])
@@ -45,10 +42,6 @@ export default function Login() {
   const handleLogIn = () => {
     signIn(auth, email, password);
     history.replace("/");
-  }
-
-  const handleSignInWithGoogle = () => {
-    signInWithGoogle(auth, provider);
   }
 
   return (
@@ -91,7 +84,7 @@ export default function Login() {
             Log in
           </button>
           <button 
-          onClick={handleSignInWithGoogle} 
+          onClick={() => {signInWithGoogle(auth, provider)}} 
           className={`login-button-google`}>
             Login with Google
           </button>

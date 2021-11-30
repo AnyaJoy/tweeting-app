@@ -53,12 +53,10 @@ export default function Profile() {
       setisUrl(true);
       //sending the photo to storage, recieving the url and updating user's profile
       uploadBytes(storageRef, imageAsFile).then((snapshot) => {
-          getDownloadURL(storageRef).then((url) => {
+        getDownloadURL(storageRef).then((url) => {
           setURL(url);
           profileUpdate(url, user.uid);
-          setTimeout(() => {
-            setisUrl(false);
-          }, [2000]);
+          setisUrl(false);
         });
       });
     }

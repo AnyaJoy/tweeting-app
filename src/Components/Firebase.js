@@ -10,7 +10,8 @@ import {
   onValue,
   query,
   orderByChild,
-  update
+  update,
+  push
 } from "firebase/database";
 import {
   getAuth,
@@ -89,24 +90,26 @@ const profileUpdate = (URL, userId) => {
   updateProfile(auth.currentUser, {
     photoURL: URL,
   })
-
   update(ref(db, 'users/' + userId), {
         "photoURL": URL
       });
-
-  // let userRef = ref('users/' + userId);
-  // userRef.child(userId).set({newPhotoURl: URL}).then().catch();
 };
 
-// //updates profile picture in auth and database
-// const profileUpdate = (URL, userId) => {
-//   updateProfile(auth.currentUser, {
-//     photoURL: URL,
-//   })
-//   set(ref(db, 'users/' + userId), {
-//     photoURL: URL
-//   });
-// };
+//saves liked tweets in user's profile in db
+const saveLikedTweet = (tweetId, userId) => {
+  var tid = uniqid()
+  update(ref(db, 'users/' + userId + '/likedTweets/' + tweetId), {
+    tweetId
+      });
+};
+
+//deletes liked tweets in user's profile in db
+const deleteLikedTweet = (tweetId, userId) => {
+  var tid = uniqid()
+  update(ref(db, 'users/' + userId + '/likedTweets/' + tweetId), {
+    tweetId: null
+      });
+};
 
 //sign in a user
 const signIn = (auth, email, password) => {
@@ -172,14 +175,32 @@ const logout = () => {
     });
 };
 
-//add data to databasw
+//add tweet to database
 const sendTweetDatabase = (input, name, dateFormatted) => {
-  set(ref(db, "tweets/" + uniqid()), {
+  var tweetId = uniqid()
+  set(ref(db, "tweets/" + tweetId), {
     content: input,
     userName: name,
     date: dateFormatted,
+    id: tweetId,
   });
 };
+
+ //recieving likes from db
+ const loadLikedTweets = (userId, setStorage) => {
+  onValue(
+    ref(db, "users/" + userId + "/likedTweets"),
+    (snapshot) => {
+      var likedTweetsArray = [];
+
+      snapshot.forEach((childSnapshot) => {
+        const data = childSnapshot.val();
+        likedTweetsArray.push(data);
+      });
+      setStorage(likedTweetsArray)
+    }
+  );
+}
 
 export {
   register,
@@ -196,4 +217,7 @@ export {
   orderByChild,
   ref,
   onValue,
+  saveLikedTweet,
+  loadLikedTweets,
+  deleteLikedTweet,
 };

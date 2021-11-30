@@ -212,7 +212,8 @@
 }
 
 .tweets-wrapper {
-  height: 360px;
+  /* height: 360px; */
+  height: 100%;
   max-width: 630px;
   margin: auto;
   overflow-x: hidden;
@@ -846,6 +847,11 @@ div[role="menu"] {
 }
 
 .searched-tweets-wrapper {
+  height: 100%;
+  max-width: 630px;
+  margin: auto;
+  overflow-x: hidden;
+  overflow-y: auto;
   margin-top: 20px;
 }
 

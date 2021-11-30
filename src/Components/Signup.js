@@ -44,10 +44,6 @@ export default function Signup() {
     // profileUpdate(name)
   };  
 
-  const handleSignInWithGoogle = () => {
-    signInWithGoogle(auth, provider);
-  }
-
   return (
     <div className="login-wrapper">
       <span className="header-login">Sign Up</span>
@@ -109,7 +105,7 @@ export default function Signup() {
           </button>
           <button 
           className="signup-button-google" 
-          onClick={handleSignInWithGoogle}
+          onClick={() => {signInWithGoogle(auth, provider)}}
           >
             Sign up with Google
           </button>

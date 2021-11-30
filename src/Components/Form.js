@@ -1,15 +1,9 @@
 import React from "react";
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import Loader from "./Loader";
 import moment from "moment";
 import AppContext from "../Context/AppContext";
-import {
-  auth,
-  sendTweetDatabase,
-  db,
-  ref,
-  onValue
-} from "./Firebase";
+import { auth, sendTweetDatabase, db, ref, onValue, loadLikedTweets } from "./Firebase";
 import { useHistory } from "react-router-dom";
 import { useAuthState } from "react-firebase-hooks/auth";
 
@@ -24,7 +18,7 @@ export default function Form(props) {
       return;
     }
     if (user) {
-      // history.replace("/");
+      loadLikedTweets(user.uid, appContext.setLikedTweets)
       appContext.setCurrentUser(user);
     }
     if (!user) {
@@ -78,29 +72,48 @@ export default function Form(props) {
     // emptying the input field and storage
     appContext.setInput("");
 
-
     //sending to the server
     setTimeout(() => {
       if (appContext.input !== "") {
-        sendTweetDatabase(appContext.input, appContext.currentUser.displayName, dateFormatted);
+        sendTweetDatabase(
+          appContext.input,
+          appContext.currentUser.displayName,
+          dateFormatted
+        );
         appContext.setIsLoading(false);
       }
     }, [500]);
   }
 
-  // recieving the tweets from server on pageload and on change
+  // recieving tweets from db
   useEffect(() => {
     onValue(ref(db, "tweets"), (snapshot) => {
       var tweetsArray = [];
 
       snapshot.forEach((childSnapshot) => {
         const data = childSnapshot.val();
-        tweetsArray.push(data);        
+        tweetsArray.push(data);
       });
-    
-      appContext.setTweetStorage(tweetsArray.reverse())
-    })
+      appContext.setTweetStorage(tweetsArray.reverse());
+    });
   }, []);
+
+  // //recieving likes from db
+  // const loadLikedTweets = (userId) => {
+  //   onValue(
+  //     ref(db, "users/" + userId + "/likedTweets"),
+  //     (snapshot) => {
+  //       var likedTweetsArray = [];
+
+  //       snapshot.forEach((childSnapshot) => {
+  //         const data = childSnapshot.val();
+  //         likedTweetsArray.push(data);
+  //       });
+  //       console.log(likedTweetsArray);
+  //       appContext.setLikedTweets(likedTweetsArray)
+  //     }
+  //   );
+  // }
 
   return (
     <>
@@ -114,7 +127,7 @@ export default function Form(props) {
         />
 
         {appContext.isLoading ? (
-          <Loader classname={"loader1"}/>
+          <Loader classname={"loader1"} />
         ) : (
           <button
             onClick={handleTweet}
