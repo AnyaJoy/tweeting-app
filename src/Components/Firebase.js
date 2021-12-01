@@ -138,7 +138,9 @@ const signInWithGoogle = (auth, provider) => {
       let dateNow = new Date();
       let dateFormatted = moment(dateNow).format("ddd DD MMM, HH:mm");
 
-      set(ref(db, "users/" + user.uid), {
+    
+
+      update(ref(db, "users/" + user.uid), {
         uid: user.uid,
         displayName: user.displayName,
         authProvider: "google",
@@ -146,14 +148,6 @@ const signInWithGoogle = (auth, provider) => {
         dateCreated: dateFormatted,
         photoURL: user.photoURL,
       });
-
-      // const docRef = addDoc(collection(db, "users"), {
-      //   uid: user.uid,
-      //   displayName: user.displayName,
-      //   authProvider: "google",
-      //   email: user.email,
-      //   dateCreated: dateFormatted,
-      // });
     })
     .catch((error) => {
       // Handle Errors here.

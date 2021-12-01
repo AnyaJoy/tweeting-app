@@ -18,7 +18,7 @@ export default function Form(props) {
       return;
     }
     if (user) {
-      loadLikedTweets(user.uid, appContext.setLikedTweets)
+      // loadLikedTweets(user.uid, appContext.setLikedTweets)
       appContext.setCurrentUser(user);
     }
     if (!user) {
@@ -95,6 +95,8 @@ export default function Form(props) {
         tweetsArray.push(data);
       });
       appContext.setTweetStorage(tweetsArray.reverse());
+      //HERE
+      loadLikedTweets(appContext.currentUser.uid, appContext.setLikedTweets)
     });
   }, []);
 
