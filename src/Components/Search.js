@@ -14,6 +14,8 @@ import { saveLikedTweet, loadLikedTweets, deleteLikedTweet } from "./Firebase";
 export default function TweetList() {
   const appContext = useContext(AppContext);
 
+  appContext.setFavouritesSelected(false);
+
   // checking if there's a user
   const [user, loading] = useAuthState(auth);
   const history = useHistory();

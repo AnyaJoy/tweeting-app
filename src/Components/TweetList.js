@@ -1,33 +1,31 @@
 import React, { useEffect } from "react";
 import { useContext, useState } from "react";
 import AppContext from "../Context/AppContext";
-import useDropdownMenu from "react-accessible-dropdown-menu-hook";
+// import useDropdownMenu from "react-accessible-dropdown-menu-hook";
 import emptyHeart from "../empty-heart.png";
 import whiteHeart from "../white-heart.png";
 import { saveLikedTweet, loadLikedTweets, deleteLikedTweet } from "./Firebase";
-import Dropdown from "./Semi-components/Dropdown";
+// import Dropdown from "./Semi-components/Dropdown";
 import DisplayTweets from "./Semi-components/DisplayTweets";
+import TweetsHeadingMenu from "./Semi-components/TweetsHeadingMenu";
 
 export default function TweetList() {
   const appContext = useContext(AppContext);
 
-  const [myTweetsSelected, setMyTweetsSelected] = useState(false);
-  const [allTweetsSelected, setAllTweetsSelected] = useState(true);
+  // //drowdow menu (selects if to show all tweets or user tweets)
+  // const { buttonProps, itemProps, isOpen, setIsOpen } = useDropdownMenu(2);
 
-  //drowdow menu (selects if to show all tweets or user tweets)
-  const { buttonProps, itemProps, isOpen, setIsOpen } = useDropdownMenu(2);
+  // const handleSelectAllTweets = () => {
+  //   setMyTweetsSelected(false);
+  //   setAllTweetsSelected(true);
+  //   setIsOpen(false);
+  // };
 
-  const handleSelectAllTweets = () => {
-    setMyTweetsSelected(false);
-    setAllTweetsSelected(true);
-    setIsOpen(false);
-  };
-
-  const handleSelectMyTweets = () => {
-    setMyTweetsSelected(true);
-    setAllTweetsSelected(false);
-    setIsOpen(false);
-  };
+  // const handleSelectMyTweets = () => {
+  //   setMyTweetsSelected(true);
+  //   setAllTweetsSelected(false);
+  //   setIsOpen(false);
+  // };
 
   const handleLike = (e) => {
     var tweetId = e.target.id;
@@ -43,19 +41,28 @@ export default function TweetList() {
 
   return (
     <>
-      <div className="header-menu-wrapper">
-        <span className="feed">Feed</span>
-        <Dropdown
-          allTweetsSelected={allTweetsSelected}
-          handleSelectAllTweets={handleSelectAllTweets}
-          myTweetsSelected={myTweetsSelected}
-          handleSelectMyTweets={handleSelectMyTweets}
-        />
-      </div>
+      <TweetsHeadingMenu />
 
-      {allTweetsSelected
-        ? //all tweets
-          appContext.tweetStorage.map((item, index) => {
+      {appContext.allTweetsSelected &&
+        appContext.tweetStorage.map((item, index) => {
+          //all tweets
+          return (
+            <DisplayTweets
+              key={item.id}
+              item={item}
+              emptyHeart={emptyHeart}
+              handleUnlike={handleUnlike}
+              likedTweets={appContext.likedTweets}
+              whiteHeart={whiteHeart}
+              handleLike={handleLike}
+            />
+          );
+        })}
+
+      {appContext.myTweetsSelected &&
+        appContext.tweetStorage.map((item, index) => {
+          //my tweets
+          if (item.userName === appContext.currentUser.displayName)
             return (
               <DisplayTweets
                 key={item.id}
@@ -67,23 +74,32 @@ export default function TweetList() {
                 handleLike={handleLike}
               />
             );
-          })
-        : //my tweets
-          appContext.tweetStorage.map((item, index) => {
-            if (item.userName === appContext.currentUser.displayName) {
-              return (
-                <DisplayTweets
-                  key={item.id}
-                  item={item}
-                  emptyHeart={emptyHeart}
-                  handleUnlike={handleUnlike}
-                  likedTweets={appContext.likedTweets}
-                  whiteHeart={whiteHeart}
-                  handleLike={handleLike}
-                />
-              );
-            }
-          })}
+        })}
+
+      {appContext.favouritesSelected &&
+        appContext.likedTweets.map((tweet, index) => {
+          //map inside map
+          return (
+            <div key={tweet.tweetId}>
+              {appContext.tweetStorage.map((item, index) => {
+                if (item.id == tweet.tweetId) {
+                  console.log(item);
+                  return (
+                    <DisplayTweets
+                      key={item.id}
+                      item={item}
+                      emptyHeart={emptyHeart}
+                      handleUnlike={handleUnlike}
+                      likedTweets={appContext.likedTweets}
+                      whiteHeart={whiteHeart}
+                      handleLike={handleLike}
+                    />
+                  );
+                }
+              })}
+            </div>
+          );
+        })}
     </>
   );
 }

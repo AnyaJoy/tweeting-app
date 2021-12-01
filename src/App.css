@@ -1,7 +1,6 @@
 .App {
   text-align: center;
   margin-top: 40px;
-  
 }
 
 * {
@@ -699,23 +698,26 @@ img {
   max-width: 600px;
   margin-bottom: 20px;
   display: flex;
-  justify-content: space-between;
   position: relative;
   font-weight: 300;
   font-size: 1rem;
+  height: 25px;
+  justify-content: flex-end;
 }
 
-.feed {
+.tweet-class-name {
   color: white;
+  opacity: 1;
   font-weight: 300;
-  font-size: 1.1rem;
+  font-size: 1rem;
   border-left: #343a40ff 3px solid;
   padding-left: 6px;
+  cursor: pointer;
 }
 
 .toggler {
   visibility: visible;
-  padding: 3px 10px 3px 10px;
+  padding: 3px 3px 3px 0;
 }
 
 .dropdown-header {
@@ -737,6 +739,7 @@ img {
 
 .div-line {
   color: white;
+  opacity: 0.5;
   padding: 10px 10px;
 }
 

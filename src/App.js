@@ -40,9 +40,14 @@ function App() {
 
   const [likedTweets, setLikedTweets] = useState([]);
 
-  // useEffect(() => {
-  //   console.log(currentUser);
-  // }, [currentUser]);
+  const [myTweetsSelected, setMyTweetsSelected] = useState(false);
+  const [allTweetsSelected, setAllTweetsSelected] = useState(true);
+
+  const [favouritesSelected, setFavouritesSelected] = useState(false);
+
+  useEffect(() => {
+    console.log(likedTweets);
+  }, [likedTweets]);
 
   return (
     <AppContext.Provider
@@ -83,6 +88,12 @@ function App() {
         setSearchByUser: setSearchByUser,
         likedTweets: likedTweets,
         setLikedTweets: setLikedTweets,
+        myTweetsSelected: myTweetsSelected,
+        setMyTweetsSelected: setMyTweetsSelected,
+        allTweetsSelected: allTweetsSelected,
+        setAllTweetsSelected: setAllTweetsSelected,
+        favouritesSelected: favouritesSelected,
+        setFavouritesSelected: setFavouritesSelected,
       }}
     >
       <div className="content-wrapper">

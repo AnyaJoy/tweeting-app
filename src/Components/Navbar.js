@@ -32,22 +32,6 @@ export default function Navbar() {
     }
   }, [appContext.currentUser]);
 
-  // //checks location on navbar click
-  // const checkLocation = () => {
-  //   appContext.setSearchInput("");
-  //   if (location === "home") {
-  //     appContext.setHomeActive(true);
-  //     appContext.setProfileActive(false);
-  //   }
-  //   if (location === "profile") {
-  //     appContext.setHomeActive(false);
-  //     appContext.setProfileActive(true);
-  //   }
-  // };
-
-  // const [searchByTweet, setSearchByTweet] = useState(true);
-  // const [searchByUser, setSearchByUser] = useState(false);
-
   const { buttonProps, itemProps, isOpen, setIsOpen } = useDropdownMenu(2);
 
   const handleSearchByTweet = () => {
@@ -110,6 +94,7 @@ export default function Navbar() {
               appContext.setHomeActive(true);
               appContext.setProfileActive(false);
               appContext.setSearchInput("");
+              appContext.setFavouritesSelected(false);
             }}
             className="label"
           >
@@ -121,6 +106,7 @@ export default function Navbar() {
               appContext.setHomeActive(true);
               appContext.setProfileActive(false);
               appContext.setSearchInput("");
+              appContext.setFavouritesSelected(false);
             }}
             className={`home-${appContext.homeActive}`}
           >
@@ -132,6 +118,7 @@ export default function Navbar() {
               appContext.setHomeActive(false);
               appContext.setProfileActive(true);
               appContext.setSearchInput("");
+              appContext.setFavouritesSelected(false);
             }}
             className={`profile-${appContext.profileActive}`}
           >
