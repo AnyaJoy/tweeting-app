@@ -41,19 +41,6 @@ const database = getDatabase(app); //realtime database
 const auth = getAuth();
 const provider = new GoogleAuthProvider();
 const db = getDatabase();
-const dbRef = ref(getDatabase());
-
-// //checks if a user exists
-// const checkUser = () => {
-// onAuthStateChanged(auth, (user) => {
-//   if (user) {
-//     const uid = user.uid;
-//     console.log('there is a user',user)
-//   } else {
-//     console.log("there's no user")
-//   }
-// });
-// }
 
 //create a user with email and password
 const register = (auth, email, password, name) => {
@@ -137,8 +124,6 @@ const signInWithGoogle = (auth, provider) => {
       console.log(user);
       let dateNow = new Date();
       let dateFormatted = moment(dateNow).format("ddd DD MMM, HH:mm");
-
-    
 
       update(ref(db, "users/" + user.uid), {
         uid: user.uid,

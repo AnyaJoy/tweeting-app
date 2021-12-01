@@ -18,8 +18,8 @@ export default function Form(props) {
       return;
     }
     if (user) {
-      // loadLikedTweets(user.uid, appContext.setLikedTweets)
       appContext.setCurrentUser(user);
+      loadLikedTweets(user.uid, appContext.setLikedTweets)
     }
     if (!user) {
       history.replace("/login");
@@ -85,7 +85,7 @@ export default function Form(props) {
     }, [500]);
   }
 
-  // recieving tweets from db
+  // recieving tweets and likes from db
   useEffect(() => {
     onValue(ref(db, "tweets"), (snapshot) => {
       var tweetsArray = [];
@@ -96,26 +96,9 @@ export default function Form(props) {
       });
       appContext.setTweetStorage(tweetsArray.reverse());
       //HERE
-      loadLikedTweets(appContext.currentUser.uid, appContext.setLikedTweets)
+      // loadLikedTweets(appContext.currentUser.uid, appContext.setLikedTweets)
     });
   }, []);
-
-  // //recieving likes from db
-  // const loadLikedTweets = (userId) => {
-  //   onValue(
-  //     ref(db, "users/" + userId + "/likedTweets"),
-  //     (snapshot) => {
-  //       var likedTweetsArray = [];
-
-  //       snapshot.forEach((childSnapshot) => {
-  //         const data = childSnapshot.val();
-  //         likedTweetsArray.push(data);
-  //       });
-  //       console.log(likedTweetsArray);
-  //       appContext.setLikedTweets(likedTweetsArray)
-  //     }
-  //   );
-  // }
 
   return (
     <>

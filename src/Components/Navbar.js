@@ -109,6 +109,7 @@ export default function Navbar() {
             onClick={() => {
               appContext.setHomeActive(true);
               appContext.setProfileActive(false);
+              appContext.setSearchInput("");
             }}
             className="label"
           >
@@ -119,6 +120,7 @@ export default function Navbar() {
             onClick={() => {
               appContext.setHomeActive(true);
               appContext.setProfileActive(false);
+              appContext.setSearchInput("");
             }}
             className={`home-${appContext.homeActive}`}
           >
@@ -129,6 +131,7 @@ export default function Navbar() {
             onClick={() => {
               appContext.setHomeActive(false);
               appContext.setProfileActive(true);
+              appContext.setSearchInput("");
             }}
             className={`profile-${appContext.profileActive}`}
           >

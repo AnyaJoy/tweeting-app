@@ -1,6 +1,7 @@
 .App {
   text-align: center;
   margin-top: 40px;
+  
 }
 
 * {
@@ -212,14 +213,11 @@
 }
 
 .tweets-wrapper {
-  /* height: 360px; */
-  height: 100%;
-  max-width: 630px;
-  margin: auto;
-  overflow-x: hidden;
-  overflow-y: auto;
+  text-align: -webkit-center;
+  height: 360px;
   padding-left: 15px;
   margin-top: 20px;
+  overflow-y: scroll;
 }
 
 .tweet-wrapper {
@@ -850,8 +848,8 @@ div[role="menu"] {
   height: 100%;
   max-width: 630px;
   margin: auto;
-  overflow-x: hidden;
-  overflow-y: auto;
+  /* overflow-x: hidden;
+  overflow-y: auto; */
   margin-top: 20px;
 }
 
