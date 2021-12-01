@@ -4,7 +4,7 @@ export default function LikeButton(props) {
   const {
     item,
     whiteHeart,
-    handleUnLike,
+    handleUnlike,
     emptyHeart,
     handleLike,
     likedTweets,
@@ -24,7 +24,7 @@ export default function LikeButton(props) {
             <img
               key={tweet.tweetId}
               src={whiteHeart}
-              onClick={handleUnLike}
+              onClick={handleUnlike}
               className="like-button-true"
               id={item.id}
             ></img>

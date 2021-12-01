@@ -2,7 +2,7 @@ import React from 'react'
 import LikeButton from './LikeButton';
 
 export default function SearchByUser(props) {
-    const { storage, searchInput, emptyHeart, handleUnLike, handleLike, whiteHeart, likedTweets } = props
+    const { storage, searchInput, emptyHeart, handleUnlike, handleLike, whiteHeart, likedTweets } = props
     return (
         <div className="search-wrapper">
           <div className="header-profile">Search by user...</div>
@@ -32,7 +32,7 @@ export default function SearchByUser(props) {
                       <div className="date">{item.date}</div>
                     </div>
                     <div className="tweet">{item.content}</div>
-                    <LikeButton item={item} emptyHeart={emptyHeart} handleUnLike={handleUnLike} handleLike={handleLike} whiteHeart={whiteHeart} likedTweets={likedTweets}/>
+                    <LikeButton item={item} emptyHeart={emptyHeart} handleUnlike={handleUnlike} handleLike={handleLike} whiteHeart={whiteHeart} likedTweets={likedTweets}/>
                   </div>
                 );
               }

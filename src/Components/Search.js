@@ -32,7 +32,7 @@ export default function TweetList() {
     loadLikedTweets(appContext.currentUser.uid, appContext.setLikedTweets);
   };
 
-  const handleUnLike = (e) => {
+  const handleUnlike = (e) => {
     var tweetId = e.target.id;
     deleteLikedTweet(tweetId, appContext.currentUser.uid);
     loadLikedTweets(appContext.currentUser.uid, appContext.setLikedTweets);
@@ -41,7 +41,6 @@ export default function TweetList() {
   return (
     <>
       {appContext.searchByTweet ? (
-        // search by tweet content
         <SearchByTweets
           storage={appContext.tweetStorage}
           likedTweets={appContext.likedTweets}
@@ -49,10 +48,9 @@ export default function TweetList() {
           emptyHeart={emptyHeart}
           whiteHeart={whiteHeart}
           handleLike={handleLike}
-          handleUnLike={handleUnLike}
+          handleUnlike={handleUnlike}
         />
       ) : (
-        //search by user name
         <SearchByUser
           storage={appContext.tweetStorage}
           likedTweets={appContext.likedTweets}
@@ -60,45 +58,8 @@ export default function TweetList() {
           emptyHeart={emptyHeart}
           whiteHeart={whiteHeart}
           handleLike={handleLike}
-          handleUnLike={handleUnLike}
+          handleUnlike={handleUnlike}
         />
-
-        // <div className="search-wrapper">
-        //   <div className="header-profile">Search by user...</div>
-        //   <div className="searched-tweets-wrapper">
-        //     {appContext.tweetStorage.map((item, index) => {
-        //       if (
-        //         item.userName.toLowerCase().indexOf(appContext.searchInput) !=
-        //         -1
-        //       ) {
-        //         const parts = item.userName.split(
-        //           new RegExp(`(${appContext.searchInput})`, "gi")
-        //         );
-
-        //         return (
-        //           <div key={item.id} className="tweet-wrapper">
-        //             <div className="user-name-and-date">
-        //               <div className="user-name">
-        //                 {parts.map((part, index) =>
-        //                   part.toLowerCase() ===
-        //                   appContext.searchInput.toLowerCase() ? (
-        //                     <mark key={1 + index}>{part}</mark>
-        //                   ) : (
-        //                     part
-        //                   )
-        //                 )}
-        //               </div>
-        //               <div className="date">{item.date}</div>
-        //             </div>
-        //             <div className="tweet">{item.content}</div>
-        //             <img src={emptyHeart} className="like-button-true"></img>
-        //             {/* <img src={whiteHeart} className="like-button-true"></img> */}
-        //           </div>
-        //         );
-        //       }
-        //     })}
-        //   </div>
-        // </div>
       )}
     </>
   );
