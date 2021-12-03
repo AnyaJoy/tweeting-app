@@ -95,8 +95,6 @@ export default function Form(props) {
         tweetsArray.push(data);
       });
       appContext.setTweetStorage(tweetsArray.reverse());
-      //HERE
-      // loadLikedTweets(appContext.currentUser.uid, appContext.setLikedTweets)
     });
   }, []);
 

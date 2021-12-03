@@ -1,14 +1,14 @@
-import React from "react";
-import { useContext, useState, useEffect } from "react";
+import { React, useContext, useState, useEffect } from "react";
 import AppContext from "../Context/AppContext";
 
 import { auth, profileUpdate } from "./Firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useHistory } from "react-router-dom";
+import ProfilePicture from "./Semi-components/ProfilePicture";
 
-import "firebase/storage";
-import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import img from "../tweet.png";
+import UserProfileInfo from "./Semi-components/UserProfileInfo";
+
 
 var dateCreated = "";
 
@@ -39,71 +39,14 @@ export default function Profile() {
     }
   }, [user, loading]);
 
-  // uploading profile pjoto
-  const [imageAsFile, setImageAsFile] = useState();
-  const storage = getStorage();
-  const storageRef = ref(storage, appContext.currentUser.uid);
-
-  const [URL, setURL] = useState();
-  const [isUrl, setisUrl] = useState(false);
-
-  // profile image update
-  useEffect(() => {
-    if (imageAsFile) {
-      setisUrl(true);
-      //sending the photo to storage, recieving the url and updating user's profile
-      uploadBytes(storageRef, imageAsFile).then((snapshot) => {
-        getDownloadURL(storageRef).then((url) => {
-          setURL(url);
-          profileUpdate(url, user.uid);
-          setisUrl(false);
-        });
-      });
-    }
-  }, [imageAsFile]);
-
-  const handleImageAsFile = (e) => {
-    const image = e.target.files[0];
-    setImageAsFile(image);
-  };
+  const [URL, setURL] = useState("");
 
   return (
     <div className="profile-wrapper">
       <div className="header-profile">Profile</div>
       <div className="profile-and-picture-wrapper">
-        <div className="profile-info">
-          <div>
-            <span>User name: </span>
-            <span className="profile-info-fetched">
-              {appContext.currentUser.displayName}
-            </span>
-          </div>
-          <div>
-            <span className="profile-email">E-mail: </span>
-            <span className="profile-info-fetched">
-              {appContext.currentUser.email}
-            </span>
-          </div>
-          <div>
-            <span className="profile-createdAt">Registered at: </span>
-            <span className="profile-info-fetched">{dateCreated}</span>
-          </div>
-        </div>
-        <div className="photo-wrapper">
-          <div className="profile-picture">
-            {URL ? <img src={URL} /> : <img src={img} />}
-          </div>
-          <div className="update-picture-button">
-            Update photo
-            <input
-              type="file"
-              className="upload-photo"
-              name="photo"
-              onChange={handleImageAsFile}
-            ></input>
-          </div>
-          <div className={`notification-submit-${isUrl}`}>Saving...</div>
-        </div>
+        <UserProfileInfo dateCreated={dateCreated}/>
+        <ProfilePicture img={img} URL={URL} setURL={setURL}/>
       </div>
     </div>
   );

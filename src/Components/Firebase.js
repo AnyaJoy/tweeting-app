@@ -11,7 +11,7 @@ import {
   query,
   orderByChild,
   update,
-  push
+  push,
 } from "firebase/database";
 import {
   getAuth,
@@ -73,7 +73,7 @@ const register = (auth, email, password, name) => {
 };
 
 //updates profile picture in auth and database
-const profileUpdate = (URL, userId) => {
+const profileUpdate = (URL, userId, ) => {
   updateProfile(auth.currentUser, {
     photoURL: URL,
   })
@@ -82,20 +82,40 @@ const profileUpdate = (URL, userId) => {
       });
 };
 
+//updates name in auth and database
+const profileUpdateName = (userId, newUserName) => {
+  updateProfile(auth.currentUser, {
+    displayName: newUserName,
+  })
+  update(ref(db, 'users/' + userId), {
+        "displayName": newUserName,
+      });
+};
+
+//updates name in auth and database
+const profileUpdateEmail = (userId, newEmail) => {
+  updateProfile(auth.currentUser, {
+    email: newEmail,
+  })
+  update(ref(db, 'users/' + userId), {
+        "email": newEmail,
+      });
+};
+
 //saves liked tweets in user's profile in db
 const saveLikedTweet = (tweetId, userId) => {
-  var tid = uniqid()
-  update(ref(db, 'users/' + userId + '/likedTweets/' + tweetId), {
-    tweetId
-      });
+  var tid = uniqid();
+  update(ref(db, "users/" + userId + "/likedTweets/" + tweetId), {
+    tweetId,
+  });
 };
 
 //deletes liked tweets in user's profile in db
 const deleteLikedTweet = (tweetId, userId) => {
-  var tid = uniqid()
-  update(ref(db, 'users/' + userId + '/likedTweets/' + tweetId), {
-    tweetId: null
-      });
+  var tid = uniqid();
+  update(ref(db, "users/" + userId + "/likedTweets/" + tweetId), {
+    tweetId: null,
+  });
 };
 
 //sign in a user
@@ -156,7 +176,7 @@ const logout = () => {
 
 //add tweet to database
 const sendTweetDatabase = (input, name, dateFormatted) => {
-  var tweetId = uniqid()
+  var tweetId = uniqid();
   set(ref(db, "tweets/" + tweetId), {
     content: input,
     userName: name,
@@ -165,21 +185,18 @@ const sendTweetDatabase = (input, name, dateFormatted) => {
   });
 };
 
- //recieving likes from db
- const loadLikedTweets = (userId, setStorage) => {
-  onValue(
-    ref(db, "users/" + userId + "/likedTweets"),
-    (snapshot) => {
-      var likedTweetsArray = [];
+//recieving likes from db
+const loadLikedTweets = (userId, setStorage) => {
+  onValue(ref(db, "users/" + userId + "/likedTweets"), (snapshot) => {
+    var likedTweetsArray = [];
 
-      snapshot.forEach((childSnapshot) => {
-        const data = childSnapshot.val();
-        likedTweetsArray.push(data);
-      });
-      setStorage(likedTweetsArray)
-    }
-  );
-}
+    snapshot.forEach((childSnapshot) => {
+      const data = childSnapshot.val();
+      likedTweetsArray.push(data);
+    });
+    setStorage(likedTweetsArray.reverse());
+  });
+};
 
 export {
   register,
@@ -199,4 +216,5 @@ export {
   saveLikedTweet,
   loadLikedTweets,
   deleteLikedTweet,
+  profileUpdateName,
 };

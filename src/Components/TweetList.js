@@ -83,7 +83,6 @@ export default function TweetList() {
             <div key={tweet.tweetId}>
               {appContext.tweetStorage.map((item, index) => {
                 if (item.id == tweet.tweetId) {
-                  console.log(item);
                   return (
                     <DisplayTweets
                       key={item.id}

@@ -1,10 +1,8 @@
 import Form from "./Form";
 import TweetList from "./TweetList";
-// import { useContext } from "react";
-// import AppContext from "../Context/AppContext";
 
 function Home() {
-  // const appContext = useContext(AppContext);
+
 
   return (
     <>

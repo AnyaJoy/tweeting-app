@@ -43,6 +43,7 @@ export default function TweetList() {
   return (
     <>
       {appContext.searchByTweet ? (
+        <div className="search-result-wrapper">
         <SearchByTweets
           storage={appContext.tweetStorage}
           likedTweets={appContext.likedTweets}
@@ -52,7 +53,9 @@ export default function TweetList() {
           handleLike={handleLike}
           handleUnlike={handleUnlike}
         />
+        </div>
       ) : (
+        <div className="search-result-wrapper">
         <SearchByUser
           storage={appContext.tweetStorage}
           likedTweets={appContext.likedTweets}
@@ -62,6 +65,7 @@ export default function TweetList() {
           handleLike={handleLike}
           handleUnlike={handleUnlike}
         />
+        </div>
       )}
     </>
   );

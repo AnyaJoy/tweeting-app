@@ -42,12 +42,8 @@ function App() {
 
   const [myTweetsSelected, setMyTweetsSelected] = useState(false);
   const [allTweetsSelected, setAllTweetsSelected] = useState(true);
-
   const [favouritesSelected, setFavouritesSelected] = useState(false);
 
-  useEffect(() => {
-    console.log(likedTweets);
-  }, [likedTweets]);
 
   return (
     <AppContext.Provider
