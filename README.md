@@ -4,7 +4,7 @@ Deployed link: https://tweet-out.web.app
 
 # Tweeting App Project
 
-Micro-blogging web application. In this project I was practicing my front-end skills using Firebase for back-end technologies.
+Micro-blogging web application. Home task from the first month of Front-end course. In this project I was practicing my vanila JavaScript and raw CSS/HTML skills, while using Firebase for back-end. Looking back at it now - that's when I fell in love with coding.
 
 ## Table of contents
 
